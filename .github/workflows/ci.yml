@@ -7,19 +7,33 @@ on:
     branches: [main]
 
 jobs:
-  lua-format-check:
-    name: Lua Format Check
+  lua-format-and-validate:
+    name: Lua Format and Validate
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup stylua
+      - name: Setup stylua and format files
         uses: JohnnyMorganz/stylua-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
-          args: --check nvchad-config/
+          args: nvchad-config/
+
+      - name: Commit formatted files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No formatting changes needed"
+          else
+            git commit -m "Auto-format Lua files with stylua"
+            git push
+          fi
 
       - name: Install Lua for syntax validation
         run: |
