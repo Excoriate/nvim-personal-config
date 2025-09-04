@@ -7,7 +7,6 @@ return {
     "nvim-tree/nvim-web-devicons",
   },
   opts = function(_, opts)
-    
     local presets = require "markview.presets"
 
     ---@type markview.configuration

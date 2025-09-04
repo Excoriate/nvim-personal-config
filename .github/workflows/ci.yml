@@ -18,10 +18,13 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Install dependencies
         run: |
-          # Install Lua and Make
+          # Install Lua (includes luac), Make
           sudo apt-get update
           sudo apt-get install -y lua5.4 make
-          
+
+          # Verify luac is available (required by Makefile lint target)
+          which luac5.4 || which luac
+
           # Install stylua via cargo
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
           source ~/.cargo/env
@@ -47,4 +50,6 @@ jobs:
       - name: Validate with Makefile (CI simulation)
         run: |
           source ~/.cargo/env
+          # Run CI checks: format validation + Lua syntax validation
+          # Note: Uses luac -p for syntax-only checking (appropriate for Neovim config files)
           make ci

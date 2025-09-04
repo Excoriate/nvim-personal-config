@@ -122,7 +122,7 @@ create_cmd("FormatProject", function()
 end, { desc = "Format project via conform" })
 
 create_cmd("VerifyLSP", function()
-  local verify_script = vim.fn.stdpath("config") .. "/test_lsp_files/verify_lsp.lua"
+  local verify_script = vim.fn.stdpath "config" .. "/test_lsp_files/verify_lsp.lua"
   if vim.fn.filereadable(verify_script) == 1 then
     vim.cmd("luafile " .. verify_script)
   else

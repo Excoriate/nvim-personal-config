@@ -4,7 +4,6 @@ return {
   dependencies = "nvim-lua/plenary.nvim",
   event = "VeryLazy",
   config = function()
-    
     require("todo-comments").setup {
       keywords = {
         GROUP = { icon = " ", color = "hint" },

@@ -90,7 +90,7 @@ return {
 
     autocmd("FileType", {
       desc = "Disable Oil toggler in telescope buffers.",
-      pattern = "Telescope*", 
+      pattern = "Telescope*",
       group = augroup("OilTelescope", { clear = true }),
       callback = function(event)
         buf_map(event.buf, "n", "<leader>e", "<nop>")
@@ -163,7 +163,7 @@ return {
     map("n", "<leader>e", function()
       toggle_oil()
     end, { desc = "Open Oil file explorer" })
-    
+
     -- Alternative mapping for those who prefer Ctrl
     map("n", "<C-e>", function()
       toggle_oil()

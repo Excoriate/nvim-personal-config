@@ -38,7 +38,7 @@ format: check-stylua
 	@echo "✅ Formatting complete!"
 
 # Check if files need formatting (same as CI workflow)
-.PHONY: format-check  
+.PHONY: format-check
 format-check: check-stylua
 	@echo "🔍 Checking Lua file formatting..."
 	@stylua --check $(LUA_DIR)/ || { \
@@ -47,21 +47,21 @@ format-check: check-stylua
 	}
 	@echo "✅ All files are properly formatted!"
 
-# Validate Lua syntax (same as CI workflow)
+# Validate Lua syntax (syntax-only check for Neovim config files)
 .PHONY: lint
 lint: check-lua
 	@echo "🔍 Checking Lua syntax..."
-	@LUA_CMD=$$(which lua$(LUA_VERSION) 2>/dev/null || which lua); \
+	@LUA_CMD=$$(which luac$(LUA_VERSION) 2>/dev/null || which luac); \
 	find $(LUA_DIR)/ -name "*.lua" -print0 | while IFS= read -r -d '' file; do \
 		echo "  Checking: $$file"; \
-		$$LUA_CMD -l "$$file" 2>&1 || { \
+		$$LUA_CMD -p "$$file" 2>&1 || { \
 			echo "❌ Syntax error in: $$file"; \
 			exit 1; \
 		}; \
 	done
 	@echo "✅ All Lua files have valid syntax!"
 
-# Run all checks (format check + syntax validation) 
+# Run all checks (format check + syntax validation)
 .PHONY: check
 check: format-check lint
 	@echo "✅ All checks passed!"
@@ -83,7 +83,7 @@ help:
 	@echo ""
 	@echo "  make format        - Format all Lua files using stylua"
 	@echo "  make format-check  - Check if files need formatting (CI check)"
-	@echo "  make lint          - Validate Lua syntax (CI check)" 
+	@echo "  make lint          - Validate Lua syntax (CI check)"
 	@echo "  make check         - Run all checks (format-check + lint)"
 	@echo "  make fix           - Fix formatting and validate syntax"
 	@echo "  make ci            - Simulate CI workflow checks"

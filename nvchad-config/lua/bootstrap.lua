@@ -50,8 +50,6 @@ require("lazy").setup({
   { import = "plugins" },
 }, lazy_config)
 
-
-
 require "nvchad.autocmds"
 
 -- Ensure base46 cache is generated when needed

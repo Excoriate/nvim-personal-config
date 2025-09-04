@@ -12,7 +12,6 @@ return {
     map("n", "<leader>gg", "<cmd>Neogit<CR>", { desc = "Neogit Open" })
   end,
   config = function(_, opts)
-    
     require("neogit").setup(opts)
 
     local augroup = vim.api.nvim_create_augroup
