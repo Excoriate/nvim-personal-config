@@ -7,16 +7,29 @@ on:
     branches: [main]
 
 jobs:
-  lua:
-    name: Lua CI
+  lua-format-check:
+    name: Lua Format Check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup stylua
-        uses: JohnnyMorganz/stylua-action@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          version: latest
-          args: --check .
+      - name: Install Lua and stylua
+        run: |
+          # Install Lua
+          sudo apt-get update
+          sudo apt-get install -y lua5.4 luarocks
+          
+          # Install stylua via cargo
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          source ~/.cargo/env
+          cargo install stylua
+
+      - name: Check Lua formatting with stylua
+        run: |
+          source ~/.cargo/env
+          stylua --check nvchad-config/
+
+      - name: Validate Lua syntax
+        run: |
+          find nvchad-config/ -name "*.lua" -exec lua5.4 -l {} \; 2>&1 | grep -v "^$" && exit 1 || echo "All Lua files have valid syntax"
