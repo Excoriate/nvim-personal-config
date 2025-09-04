@@ -14,22 +14,29 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Lua and stylua
+      - name: Install stylua
         run: |
-          # Install Lua
-          sudo apt-get update
-          sudo apt-get install -y lua5.4 luarocks
-          
-          # Install stylua via cargo
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-          source ~/.cargo/env
-          cargo install stylua
+          # Download pre-built stylua binary for faster execution
+          curl -L https://github.com/JohnnyMorganz/StyLua/releases/latest/download/stylua-linux.zip -o stylua.zip
+          unzip stylua.zip
+          chmod +x stylua
+          sudo mv stylua /usr/local/bin/
 
       - name: Check Lua formatting with stylua
         run: |
-          source ~/.cargo/env
           stylua --check nvchad-config/
+
+      - name: Install Lua for syntax validation
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lua5.4
 
       - name: Validate Lua syntax
         run: |
-          find nvchad-config/ -name "*.lua" -exec lua5.4 -l {} \; 2>&1 | grep -v "^$" && exit 1 || echo "All Lua files have valid syntax"
+          find nvchad-config/ -name "*.lua" -exec lua5.4 -l {} \; 2>&1 | tee syntax_check.log
+          if grep -q "error" syntax_check.log; then
+            echo "Lua syntax errors found!"
+            exit 1
+          else
+            echo "All Lua files have valid syntax"
+          fi
