@@ -1,7 +1,8 @@
 # My Neovim Configuration
 
-![License](https://img.shields.io/github/license/alextorresruiz/nvim-personal-config)
-![Last Commit](https://img.shields.io/github/last-commit/alextorresruiz/nvim-personal-config)
+![License](https://img.shields.io/github/license/Excoriate/nvim)
+![Last Commit](https://img.shields.io/github/last-commit/Excoriate/nvim)
+[![CI](https://github.com/Excoriate/nvim-personal-config/actions/workflows/ci.yml/badge.svg)](https://github.com/Excoriate/nvim-personal-config/actions/workflows/ci.yml)
 
 > My personal Neovim configuration, crafted with Lua, and built on top of NvChad.
 
