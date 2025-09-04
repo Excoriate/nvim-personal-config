@@ -1,0 +1,29 @@
+# .github/labeler.yml - Config for actions/labeler action
+# Defines labels based on files modified in a PR
+
+# Label for CI/CD changes
+ci/cd:
+  - changed-files:
+      - any-glob-to-any-file: ['.github/workflows/*']
+
+# Label for documentation changes
+documentation:
+  - changed-files:
+      - any-glob-to-any-file: ['*.md']
+
+# Label for lua code changes
+lua:
+  - changed-files:
+      - any-glob-to-any-file: ['**/*.lua']
+
+feature:
+ - head-branch: ['^feature', 'feature']
+
+fix:
+ - head-branch: ['^fix', 'fix']
+
+ci:
+ - head-branch: ['^ci', 'ci']
+
+refactor:
+ - head-branch: ['^refactor', 'refactor']

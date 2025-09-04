@@ -1,0 +1,121 @@
+---
+description: "Enforce systematic task breakdown using TodoLists for multi-step actions to prevent errors and improve development workflow quality"
+globs: ""
+alwaysApply: true
+---
+
+# Task Breakdown Enforcement Rule
+
+## Description
+
+This rule ensures Cursor systematically breaks down complex tasks into manageable components using TodoLists or integrated TaskLists. When any action requires multiple steps or can be divided into subtasks, Cursor must create and maintain structured task lists to prevent errors, ensure completeness, and improve development workflow quality.
+
+## Rule
+
+1. **Multi-Step Detection**: Identify tasks requiring multiple sequential actions or those divisible into logical components (e.g., feature implementation, debugging, refactoring, file modifications across multiple locations).
+
+2. **Mandatory TodoList Creation**: For tasks with 2+ steps, immediately create a structured TodoList using available task management tools before proceeding with implementation.
+
+3. **Task Granularity**: Break tasks into specific, actionable items with clear completion criteria. Each item must be independently verifiable and executable.
+
+4. **Progress Tracking**: Mark completed items immediately upon completion. Maintain visual progress indicators throughout task execution.
+
+5. **Error Prevention Protocol**: Before marking any task complete, verify all dependencies and prerequisites are satisfied. Include validation steps in task lists.
+
+6. **Documentation Integration**: Embed TodoLists directly in relevant code comments, documentation, or use integrated task management systems to maintain context.
+
+## Implementation
+
+Cursor IDE will:
+- Automatically detect complex tasks during analysis phase
+- Prompt for TodoList creation when multi-step operations are identified
+- Provide structured templates for common task breakdown patterns
+- Integrate with existing task management tools and workflows
+- Validate task completion before proceeding to dependent operations
+- Maintain task history for workflow improvement and pattern recognition
+
+## Examples
+
+### ✅ Correct: Systematic Task Breakdown
+
+```
+Task: Implement user authentication feature
+
+TodoList:
+☐ 1. Design authentication data models
+☐ 2. Create user registration endpoint
+☐ 3. Implement login validation logic
+☐ 4. Add password hashing utilities
+☐ 5. Create JWT token management
+☐ 6. Build authentication middleware
+☐ 7. Add route protection mechanisms
+☐ 8. Write comprehensive unit tests
+☐ 9. Update API documentation
+☐ 10. Validate security compliance
+```
+
+### ✅ Correct: Debugging with Structured Approach
+
+```
+Issue: API endpoint returning 500 errors
+
+Diagnostic TodoList:
+☐ 1. Reproduce error consistently
+☐ 2. Check server logs for stack traces
+☐ 3. Validate input parameters
+☐ 4. Test database connection
+☐ 5. Verify environment variables
+☐ 6. Review recent code changes
+☐ 7. Implement fix
+☐ 8. Test fix thoroughly
+☐ 9. Deploy to staging
+☐ 10. Monitor production logs
+```
+
+### ❌ Incorrect: Ad-Hoc Implementation
+
+```
+Task: Fix the authentication bug
+
+Action: Jump directly into modifying authentication.js without:
+- Understanding the specific issue
+- Creating a systematic approach
+- Planning verification steps
+- Considering dependencies or side effects
+```
+
+### ❌ Incorrect: Incomplete Task Breakdown
+
+```
+TodoList:
+☐ Fix auth
+☐ Test it
+☐ Deploy
+
+Problems:
+- Tasks too vague and non-actionable
+- Missing critical steps
+- No validation criteria
+- Insufficient granularity for error prevention
+```
+
+### Visual Task Organization
+
+```
+Project Structure with Task Management:
+
+src/
+├── components/
+│   ├── auth/           ← TodoList: Authentication components
+│   │   ☐ LoginForm.tsx
+│   │   ☐ RegisterForm.tsx
+│   │   ☐ AuthGuard.tsx
+│   └── common/         ← TodoList: Shared components
+├── services/
+│   └── api/            ← TodoList: API integration
+│       ☐ authService.ts
+│       ☐ userService.ts
+└── tests/              ← TodoList: Test coverage
+    ☐ auth.test.ts
+    ☐ integration.test.ts
+```

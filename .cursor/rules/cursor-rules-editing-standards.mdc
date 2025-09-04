@@ -1,0 +1,151 @@
+---
+description: "Enforce structural consistency and metadata preservation when editing or modifying existing cursor rules to prevent corruption and maintain quality standards"
+globs: ["**/*.mdc", ".cursor/rules/**"]
+alwaysApply: true
+---
+
+# Cursor Rules Editing Standards
+
+## Description
+
+This rule enforces structural consistency and metadata preservation when editing or modifying existing cursor rules. It ensures that all modifications maintain MDC format compliance, preserve YAML frontmatter integrity, and uphold content quality standards established during rule creation. For initial rule creation standards, see [cursor-rules-creation-standards.mdc](cursor-rules-creation-standards.mdc).
+
+## Rule
+
+Preserve structure when editing cursor rules:
+
+1. **Preserve YAML**: Never remove `description`, `globs`, `alwaysApply` fields
+2. **Maintain Sections**: Keep Description → Rule → Implementation → Benefits → Examples order
+3. **Validate Changes**: Check YAML syntax and markdown formatting before saving
+4. **Verify Links**: Ensure cross-references to other rules remain functional
+5. **Test Globs**: Confirm glob patterns still target intended files
+
+## Implementation
+
+**Cursor IDE Integration:**
+- Global application (`alwaysApply: true`) ensures continuous enforcement during all cursor rule editing operations
+- Real-time validation prevents structural corruption during modification
+- Contextual warnings when required sections are removed or modified
+- Automatic syntax checking for YAML frontmatter and markdown content
+
+**AI Behavior Guidance:**
+- Enforces preservation of established rule structure during all modification tasks
+- Prevents accidental removal of metadata or required content sections
+- Validates that edits maintain consistency with established cursor rule standards
+- Ensures modifications enhance rather than degrade rule quality and effectiveness
+
+**Technical Enforcement:**
+- Pre-save validation hooks that check structural integrity
+- YAML frontmatter protection against accidental deletion or corruption
+- Cross-reference validation to prevent broken links between rules
+- Content quality checks that apply creation standards to modifications
+
+## Benefits
+
+1. **Structural Integrity**: Prevents corruption of cursor rule structure during editing operations
+2. **Metadata Protection**: Safeguards critical YAML frontmatter from accidental removal or damage
+3. **Quality Consistency**: Ensures modifications maintain the same high standards as initial creation
+4. **Cross-Reference Stability**: Preserves links and relationships between related cursor rules
+5. **Change Validation**: Provides systematic verification that edits improve rather than degrade rule effectiveness
+6. **Audit Compliance**: Maintains proper documentation and tracking of all rule modifications
+
+## Examples
+
+### ✅ Correct Editing Approach
+
+**Proper Modification Workflow:**
+
+```
+BEFORE EDITING:
+- Verify YAML frontmatter intact
+- Confirm all sections present  
+- Check cross-reference links
+
+DURING EDITING:
+- Preserve required YAML fields
+- Maintain section structure
+- Keep cross-references functional
+
+AFTER EDITING:
+- Validate YAML syntax
+- Verify section completeness
+- Test cross-reference links
+```
+
+### ❌ Incorrect Editing Patterns
+
+**Destructive Modification Examples:**
+
+```markdown
+# ❌ METADATA CORRUPTION:
+# Before:
+---
+description: "Enforce coding standards"
+globs: ["**/*.ts"]
+alwaysApply: true
+---
+
+# After (WRONG):
+description: "Updated standards"  # ❌ Missing YAML delimiters
+globs: **/*.ts  # ❌ Invalid YAML syntax
+# ❌ Missing alwaysApply field
+
+# ❌ STRUCTURAL DAMAGE:
+# Original sections: Description, Rule, Implementation, Benefits, Examples
+# Modified (WRONG): Description, Rule, Benefits  # ❌ Missing Implementation and Examples
+
+# ❌ CONTENT DEGRADATION:
+# Original: "Execute systematic validation with specific criteria"
+# Modified (WRONG): "Do validation stuff"  # ❌ Vague language introduced
+
+# ❌ BROKEN CROSS-REFERENCES:
+# Original: [cursor-rules-creation-standards.mdc](cursor-rules-creation-standards.mdc)
+# Modified (WRONG): [creation standards](creation-standards.mdc)  # ❌ Broken link
+```
+
+### 🔧 Editing Validation Checklist
+
+**Pre-Modification Verification:**
+```
+Editing Preparation/
+├── Backup current rule version ✅
+├── Identify sections requiring modification ✅
+├── Plan changes without structural impact ✅
+├── Verify cross-reference dependencies ✅
+└── Prepare validation criteria for changes ✅
+```
+
+**During-Modification Enforcement:**
+```
+Active Editing Validation/
+├── YAML frontmatter syntax preserved ✅
+├── All required sections maintained ✅
+├── Cross-references remain functional ✅
+├── Content quality standards applied ✅
+├── Technical precision maintained ✅
+└── ASCII diagrams properly formatted ✅
+```
+
+**Post-Modification Validation:**
+```
+Change Verification/
+├── YAML frontmatter validates successfully ✅
+├── Markdown formatting compliance confirmed ✅
+├── All cross-references tested and functional ✅
+├── Content completeness verified ✅
+├── Rule functionality improved (not degraded) ✅
+├── Integration with other rules validated ✅
+└── Change documentation completed ✅
+```
+
+**Critical Editing Anti-Patterns to Avoid:**
+```
+Prohibited Editing Actions/
+├── Removing YAML frontmatter delimiters (---) ❌
+├── Deleting required frontmatter fields ❌
+├── Removing mandatory content sections ❌
+├── Breaking cross-reference links ❌
+├── Introducing vague or imprecise language ❌
+├── Corrupting ASCII diagrams or code examples ❌
+└── Saving without validation checks ❌
+```

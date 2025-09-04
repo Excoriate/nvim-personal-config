@@ -1,0 +1,258 @@
+---
+description: "Enforce shell script compliance with project's ShellCheck configuration and Google Shell Style Guide standards"
+globs: ["**/*.sh", "**/*.bash", "**/scripts/**/*"]
+alwaysApply: true
+---
+
+# Shell Script Compliance Rule
+
+## Description
+
+This rule enforces comprehensive shell script compliance by combining the project's ShellCheck configuration (`.shellcheckrc`) with Google Shell Style Guide standards. All shell scripts must pass ShellCheck validation and adhere to Google's formatting, naming, and coding conventions to ensure maintainability, security, and reliability.
+
+## Rule
+
+### 1. ShellCheck Configuration Compliance (MANDATORY)
+
+1.1. **All shell scripts MUST pass ShellCheck validation** using the project's `.shellcheckrc` configuration:
+   - Shell dialect: `bash` (as specified in `.shellcheckrc`)
+   - Disabled warnings: SC2155, SC2250 (per project configuration)
+   - Enabled checks: require-variable-braces, quote-safe-variables, check-unassigned-uppercase, deprecate-which
+   - Severity level: warning minimum
+
+1.2. **External sources handling** must follow project's `external-sources=true` setting
+
+### 2. Google Shell Style Guide Compliance (MANDATORY)
+
+2.1. **Shebang and File Header**:
+   - Use `#!/bin/bash` for all executable shell scripts
+   - Include descriptive file header comment explaining script purpose
+
+2.2. **Function Definition and Structure**:
+   - Use `function name() {` format (Google style with optional 'function' keyword)
+   - Declare local variables with `local` keyword in functions
+   - Use `readonly` for constants declared at file top
+
+2.3. **Variable Handling and Quoting**:
+   - Always quote variables: `"${variable}"` (required by shellcheck enable=require-variable-braces)
+   - Use braces for all variable references: `${var}` not `$var`
+   - Quote command substitutions: `"$(command)"`
+   - Use arrays for lists: `declare -a FLAGS=(--foo --bar)`
+
+2.4. **Error Handling and Exit Codes**:
+   - Use `set -euo pipefail` for strict error handling
+   - Check command return values explicitly: `if ! command; then`
+   - Use `|| return 1` or proper error handling for function failures
+
+2.5. **Control Flow and Formatting**:
+   - Use `[[ ... ]]` instead of `[ ... ]` for conditionals
+   - Use `(( ... ))` for arithmetic operations
+   - Format loops: `for var in "${array[@]}"; do`
+   - Use 2-space indentation (never tabs)
+
+2.6. **Command and Tool Usage**:
+   - Prefer bash built-ins over external commands
+   - Use `command -v` instead of `which` (enforced by shellcheck enable=deprecate-which)
+   - Avoid `eval` and other dangerous constructs
+
+### 3. Project-Specific Requirements
+
+3.1. **Script Location**: All shell scripts must be organized in the `scripts/` directory structure
+3.2. **Configuration Reference**: Scripts must be compatible with `.shellcheckrc` settings
+3.3. **Documentation**: Include function header comments for complex functions
+
+## Implementation
+
+Cursor IDE will enforce this rule by:
+
+1. **Real-time ShellCheck Integration**:
+   - Run shellcheck with project's `.shellcheckrc` configuration on save
+   - Display inline errors and warnings for shellcheck violations
+   - Highlight disabled rules (SC2155, SC2250) when encountered
+
+2. **Style Guide Validation**:
+   - Flag incorrect shebang lines (not `#!/bin/bash`)
+   - Detect unquoted variables and suggest `"${var}"` format
+   - Warn about missing `local` declarations in functions
+   - Identify missing error handling (`set -euo pipefail`)
+
+3. **Auto-completion and Suggestions**:
+   - Suggest proper variable expansion syntax
+   - Recommend bash built-ins over external commands
+   - Provide templates for Google-style function headers
+
+4. **File Organization**:
+   - Monitor files matching globs: `**/*.sh`, `**/*.bash`, `**/scripts/**/*`
+   - Validate script placement within `scripts/` directory structure
+
+## Benefits
+
+### Code Quality and Reliability
+- **Prevents Common Errors**: ShellCheck catches 90% of bash scripting mistakes before runtime
+- **Consistent Standards**: Google Shell Style Guide ensures uniform code across team
+- **Production-Ready**: Enforces error handling and defensive programming practices
+
+### Maintainability and Collaboration
+- **Readable Code**: Consistent formatting and naming conventions improve code comprehension
+- **Documented Functions**: Required function headers enable better code understanding
+- **Standard Practices**: Team members can quickly understand and modify any script
+
+### Security and Performance
+- **Secure Defaults**: Proper quoting prevents injection vulnerabilities
+- **Optimized Performance**: Preference for bash built-ins over external commands
+- **Error Prevention**: Strict error handling (`set -euo pipefail`) prevents silent failures
+
+### Development Workflow
+- **IDE Integration**: Real-time feedback during development
+- **Automated Validation**: Consistent checking without manual intervention  
+- **Quick Fixes**: Cursor IDE can suggest and apply corrections automatically
+
+## Examples
+
+### ✅ Correct Implementation
+
+```bash
+#!/bin/bash
+#
+# Git hook management utility following Google Shell Style Guide
+# Compliant with project's .shellcheckrc configuration
+
+# Strict error handling
+set -euo pipefail
+
+# Constants (readonly as per Google style)
+readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly CONFIG_FILE="${SCRIPT_DIR}/.shellcheckrc"
+
+#######################################
+# Install pre-commit hooks with validation
+# Globals:
+#   CONFIG_FILE
+# Arguments:
+#   None
+# Returns:
+#   0 if successful, 1 on error
+#######################################
+function install_hooks() {
+    local hook_types=("pre-commit" "pre-push")
+    
+    for hook_type in "${hook_types[@]}"; do
+        if ! install_single_hook "${hook_type}"; then
+            echo "Failed to install ${hook_type} hook" >&2
+            return 1
+        fi
+    done
+    
+    echo "All hooks installed successfully"
+}
+
+# Main execution (Google style)
+function main() {
+    local command="${1:-}"
+    
+    case "${command}" in
+        install)
+            install_hooks
+            ;;
+        *)
+            echo "Usage: $0 {install}" >&2
+            exit 1
+            ;;
+    esac
+}
+
+# Execute main function if script is run directly
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    main "$@"
+fi
+```
+
+### ❌ Incorrect Implementation
+
+```bash
+#!/bin/sh
+# Wrong shebang - should be #!/bin/bash
+
+# Missing error handling - no set -euo pipefail
+# Missing file header comment
+
+SCRIPT_DIR=`dirname $0`  # Wrong: backticks, unquoted variables
+config_file=$SCRIPT_DIR/.shellcheckrc  # Wrong: no braces, no quotes
+
+install_hooks() {  # Wrong: missing 'function' or () format
+    # Missing local declaration
+    hook_types="pre-commit pre-push"  # Wrong: string instead of array
+    
+    for hook_type in $hook_types; do  # Wrong: unquoted expansion
+        install_single_hook $hook_type  # Wrong: unquoted variable
+        if [ $? -ne 0 ]; then  # Wrong: [ instead of [[, checking $?
+            echo "Failed to install $hook_type hook"  # Wrong: unquoted
+            return 1
+        fi
+    done
+    
+    echo "All hooks installed successfully"
+}
+
+# Wrong: direct execution without main function
+command=$1
+case $command in  # Wrong: unquoted variables
+    install)
+        install_hooks
+        ;;
+    *)
+        echo "Usage: $0 {install}"
+        exit 1
+        ;;
+esac
+```
+
+### Directory Structure Visualization
+
+```
+✅ Correct Structure:
+repo_template_empty/
+├── .shellcheckrc                 # Project shellcheck configuration
+├── scripts/
+│   ├── hooks/
+│   │   └── pre-commit-init.sh   # Compliant script
+│   └── setup/
+│       └── install.sh           # Compliant script
+└── .cursor/
+    └── rules/
+        └── shell-script-compliance.mdc
+
+❌ Incorrect Structure:
+repo_template_empty/
+├── random_script.sh             # Scripts outside scripts/ directory
+├── bin/
+│   └── helper.bash             # Non-standard location
+└── tools/
+    └── utility.sh              # Scattered script locations
+```
+
+### ShellCheck Integration Examples
+
+```bash
+# ✅ Compliant with .shellcheckrc settings
+
+# SC2155 disabled - this is allowed in project
+readonly LOCAL_PATH="$(get_local_path)"
+
+# Variable braces required (enabled in .shellcheckrc)
+echo "Processing file: ${filename}"  # ✅ Correct
+echo "Processing file: $filename"    # ❌ Missing braces
+
+# Quote safe variables (enabled in .shellcheckrc)  
+port_number=8080
+echo "Server running on port ${port_number}"  # ✅ Quoted
+
+# Deprecate which (enabled in .shellcheckrc)
+if command -v git >/dev/null 2>&1; then    # ✅ Use command -v
+    echo "Git is available"
+fi
+
+if which git >/dev/null 2>&1; then         # ❌ Don't use which
+    echo "Git is available"
+fi
+```

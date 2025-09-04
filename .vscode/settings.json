@@ -1,0 +1,130 @@
+{
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#113419",
+        "titleBar.activeBackground": "#184923",
+        "titleBar.activeForeground": "#F7FCF9"
+    },
+    
+    // Lua-specific settings for Neovim development
+    "[lua]": {
+        "editor.defaultFormatter": "JohnnyMorganz.stylua",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.detectIndentation": false,
+        "editor.rulers": [120],
+        "editor.wordWrap": "wordWrapColumn",
+        "editor.wordWrapColumn": 120
+    },
+    
+    // Lua language server configuration
+    "lua.completion.callSnippet": "Replace",
+    "lua.completion.keywordSnippet": "Replace",
+    "lua.completion.displayContext": 6,
+    "lua.completion.workspaceWord": true,
+    "lua.diagnostics.globals": [
+        "vim",
+        "packer_plugins",
+        "use",
+        "require",
+        "pcall",
+        "xpcall",
+        "tostring",
+        "tonumber",
+        "type",
+        "pairs",
+        "ipairs",
+        "next",
+        "rawget",
+        "rawset",
+        "setmetatable",
+        "getmetatable",
+        "select",
+        "unpack",
+        "table",
+        "string",
+        "math",
+        "os",
+        "io",
+        "debug",
+        "coroutine",
+        "package"
+    ],
+    "lua.diagnostics.disable": [
+        "lowercase-global",
+        "undefined-global"
+    ],
+    "lua.diagnostics.severity": {
+        "undefined-global": "Information"
+    },
+    "lua.workspace.library": [
+        "${3rd}/luv/library",
+        "${3rd}/busted/library"
+    ],
+    "lua.workspace.checkThirdParty": false,
+    "lua.workspace.maxPreload": 5000,
+    "lua.workspace.preloadFileSize": 1000,
+    "lua.hint.enable": true,
+    "lua.hint.paramName": "All",
+    "lua.hint.paramType": true,
+    "lua.hint.setType": true,
+    "lua.hint.paramName": "All",
+    "lua.hint.arrayIndex": "Auto",
+    "lua.hint.stringIndex": "Auto",
+    
+    // File associations
+    "files.associations": {
+        "*.lua": "lua",
+        "init.lua": "lua",
+        "lazy-lock.json": "json",
+        "packer_compiled.lua": "lua"
+    },
+    
+    // Editor settings
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.detectIndentation": false,
+    "editor.trimAutoWhitespace": true,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    
+    // Search settings
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/.git": true,
+        "**/lazy-lock.json": true,
+        "**/packer_compiled.lua": true,
+        "**/.DS_Store": true
+    },
+    
+    // File watcher settings
+    "files.watcherExclude": {
+        "**/node_modules/**": true,
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/lazy-lock.json": true,
+        "**/packer_compiled.lua": true
+    },
+    
+    // Explorer settings
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        "init.lua": "*.lua",
+        "lazy-lock.json": "lazy-lock.json",
+        "packer_compiled.lua": "packer_compiled.lua"
+    },
+    
+    // Terminal settings
+    "terminal.integrated.defaultProfile.osx": "zsh",
+    "terminal.integrated.fontSize": 14,
+    
+    // Git settings
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "git.autofetch": true,
+    
+    // Extensions recommendations
+    "extensions.ignoreRecommendations": false
+}

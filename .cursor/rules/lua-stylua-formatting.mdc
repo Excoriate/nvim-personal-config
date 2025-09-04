@@ -1,0 +1,183 @@
+---
+description: "Enforce Lua code formatting compliance with project's StyLua configuration standards for consistent code style across NeoVim configuration files"
+globs: ["**/*.lua", "nvchad-config/**/*.lua", "scripts/**/*.lua"]
+alwaysApply: true
+---
+
+# Lua StyLua Formatting Rule
+
+## Description
+
+This rule enforces consistent Lua code formatting throughout the NeoVim personal configuration project using StyLua formatting standards as defined in the project's `.stylua.toml` configuration file. All Lua files must adhere to the specified formatting rules to maintain code readability, consistency, and professional quality across the entire NeoVim configuration ecosystem.
+
+## Rule
+
+### 1. StyLua Configuration Compliance (MANDATORY)
+
+1.1. **All Lua files MUST conform to the project's StyLua configuration**:
+
+- Column width: 120 characters maximum per line
+- Line endings: Unix-style (`\n`) line terminators only
+- Indentation: 2 spaces (no tabs allowed)
+- Quote style: AutoPreferDouble (prefer double quotes, auto-select based on content)
+- Call parentheses: None (omit parentheses for single string/table arguments)
+
+1.2. **Formatting execution requirements**:
+
+- Run `stylua --check .` before committing to verify compliance
+- Use `stylua .` to automatically format all Lua files
+- Ensure `.stylua.toml` configuration is respected in all formatting operations
+
+### 2. Code Structure and Style Standards (MANDATORY)
+
+2.1. **Line Length and Wrapping**:
+
+- Maximum 120 characters per line (enforced by StyLua column_width)
+- Break long function calls, table definitions, and conditionals appropriately
+- Maintain readability when wrapping complex expressions
+
+2.2. **Indentation and Spacing**:
+
+- Use exactly 2 spaces for each indentation level
+- No mixing of tabs and spaces
+- Consistent spacing around operators and after commas
+- Proper alignment for multi-line table definitions
+
+2.3. **String and Quote Handling**:
+
+- Prefer double quotes for string literals
+- Use single quotes when string contains double quotes to avoid escaping
+- StyLua AutoPreferDouble setting will automatically optimize quote choice
+
+2.4. **Function Call Formatting**:
+
+- Omit parentheses for single string or table arguments: `require "module"` not `require("module")`
+- Use parentheses for multiple arguments: `func(arg1, arg2)`
+- Use parentheses when no arguments: `func()`
+
+### 3. NeoVim-Specific Formatting Guidelines
+
+3.1. **Plugin Specification Files**:
+
+- Follow consistent table formatting for plugin specifications
+- Use proper indentation for nested configuration tables
+- Maintain readable structure for complex plugin setups
+
+3.2. **Configuration Files**:
+
+- Keep related configuration options grouped logically
+- Use consistent formatting for vim option settings
+- Maintain clear separation between configuration sections
+
+## Implementation
+
+The cursor IDE will enforce this rule by:
+
+- **Pre-commit Validation**: Checking StyLua compliance before allowing commits
+- **Real-time Formatting**: Suggesting automatic formatting corrections during editing
+- **Configuration Monitoring**: Ensuring `.stylua.toml` settings are properly applied
+- **File Pattern Matching**: Applying rules to all Lua files in the project structure
+- **Integration with Existing Tools**: Working alongside NeoVim's built-in Lua formatting capabilities
+
+## Benefits
+
+- **Consistency**: Uniform code style across all NeoVim configuration files
+- **Readability**: 120-character line limit ensures code fits comfortably on modern displays
+- **Maintainability**: Consistent formatting makes code easier to review and modify
+- **Professional Quality**: Automated formatting eliminates style debates and inconsistencies
+- **Tool Integration**: Seamless integration with existing NeoVim development workflow
+- **Version Control**: Consistent formatting reduces diff noise in git commits
+
+## Examples
+
+### ✅ Correct StyLua Formatting
+
+```lua
+-- Proper indentation (2 spaces) and line length compliance
+local config = {
+  theme = "catppuccin-frape",
+  transparency = false,
+  plugins = {
+    "telescope.nvim",
+    "nvim-treesitter",
+  },
+}
+
+-- Function calls without parentheses for single arguments
+require "telescope".setup {
+  defaults = {
+    file_ignore_patterns = { "node_modules", ".git" },
+    layout_strategy = "horizontal",
+  },
+}
+
+-- Multi-line table with proper alignment
+return {
+  "nvim-telescope/telescope.nvim",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "nvim-telescope/telescope-fzf-native.nvim",
+  },
+  config = function()
+    require("telescope").setup()
+  end,
+}
+```
+
+### ❌ Incorrect Formatting
+
+```lua
+-- Wrong indentation (4 spaces instead of 2)
+local config = {
+    theme = 'catppuccin-frape',    -- Wrong quote style (should prefer double)
+    transparency = false,
+    plugins = {
+        'telescope.nvim',          -- Inconsistent quotes
+        'nvim-treesitter',
+    },
+}
+
+-- Unnecessary parentheses for single string argument
+require("telescope").setup({      -- Extra parentheses
+  defaults={                      -- Missing space around =
+file_ignore_patterns={'node_modules','.git'},  -- Poor spacing
+layout_strategy='horizontal'},    -- Missing space and inconsistent quotes
+})
+
+-- Line too long (exceeding 120 characters)
+return { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope-fzf-native.nvim" }, config = function() require("telescope").setup() end }
+```
+
+### Directory Structure Coverage
+
+```text
+nvim-personal-config/
+├── .stylua.toml                    ✅ Configuration file
+├── scripts/                       
+│   ├── grep_runtimepath.lua        ✅ Covered by rule
+│   └── update-lazy-imports.lua     ✅ Covered by rule
+└── nvchad-config/
+    └── lua/                        ✅ All files covered
+        ├── autocmds.lua
+        ├── mappings.lua
+        ├── options.lua
+        ├── plugins/
+        │   └── spec/               ✅ Plugin specifications
+        └── gale/                   ✅ Custom modules
+```
+
+### StyLua Command Reference
+
+```bash
+# Check formatting compliance
+stylua --check .
+
+# Format all Lua files automatically
+stylua .
+
+# Check specific file
+stylua --check nvchad-config/lua/plugins/init.lua
+
+# Format with explicit config
+stylua --config-path .stylua.toml .
+```

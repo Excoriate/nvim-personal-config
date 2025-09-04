@@ -1,0 +1,32 @@
+---
+name: "🚀 Feature Request"
+description: "Suggest a new feature or enhancement"
+title: "[FEATURE] Brief description"
+labels: [enhancement]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: "📝 Feature Summary"
+      description: "Provide a clear and concise summary of the feature you'd like to see added."
+      placeholder: "A brief summary of the new feature..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: "🎯 Problem Statement"
+      description: "What problem does this feature solve? What need does it address?"
+      placeholder: "This feature would solve the problem of..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: "💡 Proposed Solution"
+      description: "Describe the solution you'd like to see implemented."
+      placeholder: "I would like to see..."
+    validations:
+      required: true

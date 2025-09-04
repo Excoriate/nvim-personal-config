@@ -1,0 +1,189 @@
+---
+description: "Enforce proper markdown formatting standards including code block language specification and CLAUDE.md compliance guidelines"
+globs: ["*.md", "*.markdown"]
+alwaysApply: true
+---
+
+# Documentation Markdown Formatting Standards
+
+## Description
+
+This cursor rule enforces comprehensive markdown formatting standards to ensure consistent, high-quality documentation across all markdown files. The rule combines industry-standard markdownlint best practices with specific CLAUDE.md compliance guidelines to create maintainable, readable, and properly structured documentation.
+
+**Primary Focus Areas:**
+- Code block language specification requirements
+- Header hierarchy and formatting standards
+- Spacing and indentation consistency
+- Cross-document linking standards
+- Integration with existing CLAUDE.md style guidelines
+
+## Rule
+
+**MANDATORY FORMATTING REQUIREMENTS:**
+
+1. **Code Block Language Specification**
+   - Replace generic ``` with ```markdown or specific language identifier
+   - Always specify language for fenced code blocks: ```javascript, ```bash, ```python, etc.
+   - Use ```markdown for markdown content examples
+   - Use ```text for plain text examples
+
+2. **Header Hierarchy Standards**
+   - Use proper markdown headers (#, ##, ###) following logical semantic hierarchy
+   - Headers MUST start at line beginning with no leading whitespace
+   - Follow consistent header level progression (don't skip levels)
+
+3. **Header Formatting Compliance**
+   - NEVER use **bold** or *italic* formatting for headers
+   - Headers must use hash symbols (#) not underline formatting
+   - Single space required between hash symbols and header text
+
+4. **Spacing Requirements**
+   - Include blank line between headers and content
+   - Include blank line before code blocks
+   - Include blank line after code blocks (except when ending file)
+   - No multiple consecutive blank lines (maximum one blank line)
+
+5. **Code Block Indentation**
+   - Ensure correct indentation when code blocks are nested in lists
+   - Maintain consistent indentation levels
+   - Use spaces for indentation, not tabs
+
+6. **List and Code Block Integration**
+   - Proper spacing around fenced code blocks within lists
+   - Maintain list context when including code examples
+   - Preserve list item continuation for multi-paragraph items
+
+7. **Cross-Document Linking**
+   - When referencing other documents, you MUST use proper, relative markdown links.
+   - Do not reference documents or sections by name alone.
+   - For referencing specific sections, use anchor links (e.g., `[Section Title](./path/to/file.md#section-title)`).
+
+## Implementation
+
+**Cursor IDE Integration:**
+
+- Automatically suggests language identifiers when typing ```
+- Highlights violations of header formatting standards
+- Provides real-time feedback on spacing requirements
+- Auto-corrects common formatting inconsistencies
+- Integrates with markdown preview for immediate validation
+
+## Examples
+
+### ✅ Correct Code Block Formatting
+
+```markdown
+# Proper Header
+
+This is content with proper spacing.
+
+```javascript
+function example() {
+  console.log("Language specified correctly");
+}
+```
+
+More content here.
+
+## Subheader
+
+- List item
+
+  ```bash
+  echo "Properly indented in list"
+  ```
+
+- Another item
+```
+
+### ❌ Incorrect Code Block Formatting
+
+```markdown
+#No space after hash
+
+**This should be a header**
+
+Content without spacing.
+```
+function badExample() {
+  console.log("No language specified");
+}
+```
+More content immediately after.
+
+###Skipped header level
+
+- List item
+```bash
+echo "Improper indentation"
+```
+```
+
+### File Structure Requirements
+
+```
+project/
+├── docs/
+│   ├── README.md          ✅ Follows standards
+│   ├── api-guide.md       ✅ Language-specified blocks
+│   └── old-docs.md        ❌ Needs formatting update
+├── .cursor/
+│   └── rules/
+│       └── docs-markdown-formatting.mdc
+└── CLAUDE.md              ✅ Source of standards
+```
+
+### Common Violations and Fixes
+
+**Generic Code Blocks:**
+```markdown
+❌ ```
+   code without language
+   ```
+
+✅ ```text
+   code with language specified
+   ```
+```
+
+**Header Violations:**
+```markdown
+❌ **Important Section**
+❌   # Indented Header
+❌ ###Skipped Level
+
+✅ # Important Section
+✅ ## Proper Subsection
+✅ ### Logical Progression
+```
+
+**Spacing Issues:**
+```markdown
+❌ # Header
+Content immediately following
+
+❌ Text before code
+```python
+code_without_spacing()
+```
+
+✅ # Header
+
+Content with proper spacing
+
+```python
+code_with_proper_spacing()
+```
+```
+
+**Cross-Document Linking:**
+```markdown
+❌ See the "Setup" section in the contribution guide.
+
+❌ Refer to CONTRIBUTING.md for more details.
+
+✅ See the [Setup section](./CONTRIBUTING.md#setup) for more details.
+
+✅ For more information, refer to the [contribution guide](./CONTRIBUTING.md).
+```
+

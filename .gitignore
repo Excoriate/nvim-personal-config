@@ -1,0 +1,28 @@
+# Lazy
+lazy-lock.json
+
+# Packer
+packer_compiled.lua
+
+# Plugin backups
+lua/plugins/backup/
+lua/plugins/backup/*
+
+# Environment files
+.env
+
+# Backup files
+*.bck
+*.swp
+*.swo
+.stylua.toml.bck
+
+# Project specific files
+cd-project.nvim.json
+
+# Archive or temporary files
+_archive.lua
+.benchmark.lua
+
+# OS specific
+.DS_Store

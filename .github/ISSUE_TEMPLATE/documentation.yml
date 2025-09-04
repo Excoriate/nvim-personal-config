@@ -1,0 +1,21 @@
+---
+name: "📚 Documentation Issue"
+description: "Report an issue with documentation or request documentation improvements"
+title: "[DOCS] Brief description"
+labels: [documentation]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: "📝 Issue Description"
+      description: "Provide a clear and concise description of the documentation problem."
+      placeholder: "The documentation issue is..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: "💡 Suggested Improvement"
+      description: "If you have specific suggestions for how to improve the documentation, please share them."
+      placeholder: "I suggest we add/change/clarify..."
