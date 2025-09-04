@@ -14,17 +14,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install stylua
-        run: |
-          # Download pre-built stylua binary for faster execution
-          curl -L https://github.com/JohnnyMorganz/StyLua/releases/latest/download/stylua-linux.zip -o stylua.zip
-          unzip stylua.zip
-          chmod +x stylua
-          sudo mv stylua /usr/local/bin/
-
-      - name: Check Lua formatting with stylua
-        run: |
-          stylua --check nvchad-config/
+      - name: Setup stylua
+        uses: JohnnyMorganz/stylua-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: latest
+          args: --check nvchad-config/
 
       - name: Install Lua for syntax validation
         run: |
@@ -33,10 +28,12 @@ jobs:
 
       - name: Validate Lua syntax
         run: |
-          find nvchad-config/ -name "*.lua" -exec lua5.4 -l {} \; 2>&1 | tee syntax_check.log
-          if grep -q "error" syntax_check.log; then
-            echo "Lua syntax errors found!"
-            exit 1
-          else
-            echo "All Lua files have valid syntax"
-          fi
+          echo "Checking Lua syntax..."
+          find nvchad-config/ -name "*.lua" -print0 | while IFS= read -r -d '' file; do
+            echo "Checking: $file"
+            lua5.4 -l "$file" 2>&1 || {
+              echo "Syntax error in: $file"
+              exit 1
+            }
+          done
+          echo "All Lua files have valid syntax"
