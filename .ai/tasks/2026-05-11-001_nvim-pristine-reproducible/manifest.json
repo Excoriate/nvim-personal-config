@@ -1,0 +1,79 @@
+{
+  "task_id": "2026-05-11-001",
+  "slug": "nvim-pristine-reproducible",
+  "task_root": "/Users/alextorresruiz/Dropbox/@GITHUB/@oss/nvim-personal-config/.ai/tasks/2026-05-11-001_nvim-pristine-reproducible",
+  "phase": 8,
+  "compression_mode": "Full",
+  "crubvg": {"C": 2, "R": 1, "U": 2, "B": 1, "V": 2, "G": 2, "total": 11, "class": "CRITICAL"},
+  "domain_class": "implementation+investigation",
+  "control_plane_artifact": true,
+  "allowed_external_paths": [
+    "/Users/alextorresruiz/.config/nvim",
+    "/Users/alextorresruiz/.config/nvim-pristine",
+    "/Users/alextorresruiz/Dropbox/@GITHUB/@oss/nvim-personal-config/.vscode/settings.json"
+  ],
+  "created_files": [
+    "nvim-config/init.lua",
+    "nvim-config/lazy-lock.json",
+    "nvim-config/lua/lazy_setup.lua",
+    "nvim-config/lua/community.lua",
+    "nvim-config/lua/polish.lua",
+    "nvim-config/lua/plugins/astrocore.lua",
+    "nvim-config/lua/plugins/astrolsp.lua",
+    "nvim-config/lua/plugins/astroui.lua",
+    "nvim-config/lua/plugins/mason.lua",
+    "nvim-config/lua/plugins/none-ls.lua",
+    "nvim-config/lua/plugins/treesitter.lua",
+    "nvim-config/lua/plugins/user.lua",
+    "justfile",
+    "scripts/nvim-doctor.sh",
+    "scripts/nvim-deps.sh",
+    "scripts/nvim-backup.sh",
+    "scripts/nvim-install.sh",
+    "scripts/nvim-uninstall.sh",
+    "scripts/nvim-rollback.sh",
+    "scripts/nvim-sync.sh",
+    "scripts/nvim-health.sh",
+    "scripts/nvim-bench.sh",
+    "scripts/nvim-update-lock.sh",
+    "scripts/nvim-theme.sh"
+  ],
+  "modified_files": [
+    "README.md"
+  ],
+  "external_writes": [
+    "/Users/alextorresruiz/.config/nvim-pristine (symlink)"
+  ],
+  "git_mutations": [],
+  "pending_adversarial_dispatches": [],
+  "runtime_attacks": [
+    {"step": "S15", "agent": "headless nvim", "artifact": "context/probes/live-checkhealth.txt", "kind": "checkhealth"},
+    {"step": "S18", "agent": "headless nvim x5", "artifact": "stdout", "kind": "cold-start-bench"}
+  ],
+  "gate_witnesses": [
+    {"sc": "SC-1", "witness": "verification/phase-8-results.md SC-1", "agent": "headless nvim checkhealth"},
+    {"sc": "SC-2", "witness": "verification/phase-8-results.md SC-2", "agent": "python time.time_ns x5"},
+    {"sc": "SC-3", "witness": "verification/phase-8-results.md SC-3", "agent": "fresh install probe"},
+    {"sc": "SC-4", "witness": "verification/phase-8-results.md SC-4", "agent": "lazy.stats()"},
+    {"sc": "SC-5", "witness": "verification/phase-8-results.md SC-5", "agent": "stylua + shellcheck"},
+    {"sc": "SC-6", "witness": "nvim-config/lazy-lock.json", "agent": "filesystem"},
+    {"sc": "SC-7", "witness": "verification/adversarial-resolutions.md", "agent": "coordinator"},
+    {"sc": "SC-8", "witness": "verification/adversarial-receipts/", "agent": "3 typed adversarials"},
+    {"sc": "SC-9", "witness": "scripts/nvim-theme.sh", "agent": "static review"},
+    {"sc": "SC-10", "witness": "scripts/nvim-rollback.sh", "agent": "static review"}
+  ],
+  "lanes": {
+    "code": {"status": "complete"},
+    "config": {"status": "complete"},
+    "docs": {"status": "complete"},
+    "history_git": {"status": "complete"},
+    "ext_repos": {"status": "complete"},
+    "mcp_ecosystem": {"status": "complete"},
+    "runtime": {"status": "complete"},
+    "deploy": {"status": "complete"},
+    "derived": {"status": "complete"},
+    "proof": {"status": "complete"}
+  },
+  "created_at": "2026-05-11",
+  "updated_at": "2026-05-11"
+}

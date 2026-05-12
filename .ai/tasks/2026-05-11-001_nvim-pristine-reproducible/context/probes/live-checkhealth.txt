@@ -1,0 +1,452 @@
+
+==============================================================================
+astrocore:                                                                1 ⚠️
+
+Checking for conflicting mappings ~
+- ⚠️ WARNING Conflicting mappings detected in mode `n`:
+  - <C-L>: Move to right split
+  - <C-l>: Move to right window
+
+  - <C-K>: Move to above split
+  - <C-k>: Move to top window
+
+  - <C-J>: Move to below split
+  - <C-j>: Move to bottom window
+
+  - ADVICE:
+    - Make sure to normalize the left hand side of mappings to what is used in :help |keycodes.| This includes making sure to capitalize <Leader> and <LocalLeader>.
+
+==============================================================================
+astronvim:                                                                2 ⚠️
+
+Checking requirements ~
+- AstroNvim Version: v5.3.15
+- Neovim Version: v0.12.2
+- ✅ OK Using stable Neovim >= 0.10.0
+- ✅ OK `git` is installed: Used for core functionality such as updater and plugin management
+- ✅ OK `open` is installed: Used for `gx` mapping for opening files with system opener (Optional)
+- ✅ OK `rg` is installed: Used for Pickers `live_grep` picker, `<Leader>fw` and `<Leader>fW` by default (Optional)
+- ✅ OK `lazygit` is installed: Used for mappings to pull up git TUI (Optional)
+- ✅ OK `node` is installed: Used for mappings to pull up node REPL (Optional)
+- ⚠️ WARNING `gdu/gdu-go/gdu_windows_amd64.exe` is not installed: Used for mappings to pull up disk usage analyzer (Optional)
+- ⚠️ WARNING `btm` is not installed: Used for mappings to pull up system monitor (Optional)
+- ✅ OK `python3` is installed: Used for mappings to pull up python REPL (Optional)
+
+==============================================================================
+lazy:                                                               2 ⚠️  3 ❌
+
+lazy.nvim ~
+- {lazy.nvim} version `11.17.5`
+- ✅ OK {git} `version 2.54.0`
+- ✅ OK no existing packages found by other package managers
+- ✅ OK packer_compiled.lua not found
+- ❌ ERROR Issues were reported when loading your specs:
+- ❌ ERROR No specs found for module "astrocommunity.pack.python-ruff"
+
+luarocks ~
+- checking `hererocks` installation
+- ✅ OK no plugins require `luarocks`, so you can ignore any warnings below
+- ✅ OK {python3} `Python 3.14.4`
+- ❌ ERROR {/Users/alextorresruiz/.local/share/nvim/lazy-rocks/hererocks/bin/luarocks} not installed
+- ⚠️ WARNING {/Users/alextorresruiz/.local/share/nvim/lazy-rocks/hererocks/bin/lua} version `5.1` not installed
+- ⚠️ WARNING Lazy won't be able to install plugins that require `luarocks`.
+  Here's what you can do:
+   - fix your `luarocks` installation
+   - disable *hererocks* with `opts.rocks.hererocks = false`
+   - disable `luarocks` support completely with `opts.rocks.enabled = false`
+
+==============================================================================
+mason:                                                                    4 ⚠️
+
+mason.nvim ~
+- ✅ OK mason.nvim version v2.2.1
+- ✅ OK PATH: prepend
+- ✅ OK Providers: 
+    mason.providers.registry-api
+    mason.providers.client
+- ✅ OK neovim version >= 0.10.0
+
+mason.nvim [Registries] ~
+- ✅ OK Registry `github.com/mason-org/mason-registry version: 2026-05-11-vacant-puppy` is installed.
+- ✅ OK Registry `SynthesizedRegistrySource` is installed.
+
+mason.nvim [Core utils] ~
+- ✅ OK unzip: `UnZip 6.00 of 20 April 2009, by Info-ZIP, with modifications by Apple Inc.`
+- ✅ OK wget: `GNU Wget 1.25.0, a non-interactive network retriever.`
+- ✅ OK curl: `curl 8.7.1 (x86_64-apple-darwin25.0) libcurl/8.7.1 (SecureTransport) LibreSSL/3.3.6 zlib/1.2.12 nghttp2/1.68.0`
+- ✅ OK gzip: `Apple gzip 479`
+- ✅ OK tar: `bsdtar 3.5.3 - libarchive 3.7.4 zlib/1.2.12 liblzma/5.4.3 bz2lib/1.0.8 `
+- ✅ OK bash: `GNU bash, version 3.2.57(1)-release (arm64-apple-darwin25)`
+
+mason.nvim [Languages] ~
+- ⚠️ WARNING luarocks: not available
+  - ADVICE:
+    - spawn: luarocks failed with exit code - and signal -. Could not find executable "luarocks" in PATH.
+
+- ⚠️ WARNING Composer: not available
+  - ADVICE:
+    - spawn: composer failed with exit code - and signal -. Could not find executable "composer" in PATH.
+
+- ⚠️ WARNING PHP: not available
+  - ADVICE:
+    - spawn: php failed with exit code - and signal -. Could not find executable "php" in PATH.
+
+- ✅ OK Ruby: `ruby 2.6.10p210 (2022-04-12 revision 67958) [universal.arm64e-darwin25]`
+- ✅ OK Go: `go version go1.25.5 darwin/arm64`
+- ✅ OK node: `v24.2.0`
+- ✅ OK cargo: `cargo 1.95.0 (f2d3ce0bd 2026-03-21)`
+- ⚠️ WARNING julia: not available
+  - ADVICE:
+    - spawn: julia failed with exit code - and signal -. Could not find executable "julia" in PATH.
+
+- ✅ OK python: `Python 3.14.4`
+- ✅ OK RubyGem: `3.0.3.1`
+- ✅ OK npm: `11.14.1`
+- ✅ OK java: `openjdk version "19.0.1" 2022-10-18`
+- ✅ OK javac: `javac 19.0.1`
+- ✅ OK pip: `pip 26.1 from /opt/homebrew/lib/python3.14/site-packages/pip (python 3.14)`
+- ✅ OK python venv: `Ok`
+
+==============================================================================
+nvim-treesitter:                                                            ✅
+
+Requirements ~
+- ✅ OK Neovim was compiled with tree-sitter runtime ABI version 15 (required >=13).
+- ✅ OK tree-sitter-cli 0.26.3 (/Users/alextorresruiz/.local/share/nvim/mason/bin/tree-sitter)
+- ✅ OK tar 3.5.3 (/usr/bin/tar)
+- ✅ OK curl 8.7.1 (/usr/bin/curl)
+  curl 8.7.1 (x86_64-apple-darwin25.0) libcurl/8.7.1 (SecureTransport) LibreSSL/3.3.6 zlib/1.2.12 nghttp2/1.68.0
+  Release-Date: 2024-03-27
+  Protocols: dict file ftp ftps gopher gophers http https imap imaps ipfs ipns ldap ldaps mqtt pop3 pop3s rtsp smb smbs smtp smtps telnet tftp
+  Features: alt-svc AsynchDNS GSS-API HSTS HTTP2 HTTPS-proxy IPv6 Kerberos Largefile libz MultiSSL NTLM SPNEGO SSL threadsafe UnixSockets
+
+OS Info ~
+- machine: arm64
+- sysname: Darwin
+- version: Darwin Kernel Version 25.4.0: Thu Mar 19 19:30:44 PDT 2026; root:xnu-12377.101.15~1/RELEASE_ARM64_T6000
+- release: 25.4.0
+
+Install directory for parsers and queries ~
+- /Users/alextorresruiz/.local/share/nvim/site
+- ✅ OK is writable.
+- ✅ OK is in runtimepath.
+
+Installed languages     H L F I J ~
+
+  Legend: [H]ighlights, [L]ocals, [F]olds, [I]ndents, In[J]ections ~
+
+==============================================================================
+snacks:                                                            11 ⚠️  6 ❌
+
+Snacks ~
+- ✅ OK setup called
+
+Snacks.bigfile ~
+- ⚠️ WARNING setup {disabled}
+
+Snacks.dashboard ~
+- ✅ OK setup {enabled}
+- ❌ ERROR setup did not run
+
+Snacks.explorer ~
+- ⚠️ WARNING setup {disabled}
+- ✅ OK 'trash' `# Un-recognized argument --version at index 1`
+- ✅ OK 'gio' `2.88.1`
+- ✅ OK System trash command found
+
+Snacks.image ~
+- ✅ OK setup {enabled}
+- ✅ OK 'ghostty' `Ghostty 1.3.2-HEAD-+22fa801`
+- ✅ OK 'magick' `Version: ImageMagick 7.1.2-21 Q16-HDRI aarch64 23940 https://imagemagick.org`
+- ✅ OK 'convert' `WARNING: The convert command is deprecated in IMv7, use "magick" instead of "convert" or "magick convert"`
+- ✅ OK Terminal Dimensions:
+  - {size}: `720` x `432` pixels
+  - {scale}: `1.12`
+  - {cell}: `9` x `18` pixels
+- ✅ OK Available Treesitter languages:
+    `javascript`, `markdown_inline`, `markdown`, `tsx`
+- ⚠️ WARNING Missing Treesitter languages:
+    `css`, `html`, `latex`, `norg`, `scss`, `svelte`, `typst`, `vue`
+- ⚠️ WARNING Image rendering in docs with missing treesitter parsers won't work
+- ❌ ERROR Tool not found: 'gs'
+- ⚠️ WARNING `gs` is required to render PDF files
+- ❌ ERROR None of the tools found: 'tectonic', 'pdflatex'
+- ⚠️ WARNING `tectonic` or `pdflatex` is required to render LaTeX math expressions
+- ✅ OK 'mmdc' `11.14.0`
+- ✅ OK Mermaid diagrams are supported
+- ❌ ERROR your terminal does not support the kitty graphics protocol
+- supported terminals: `kitty`, `wezterm`, `ghostty`
+
+Snacks.input ~
+- ✅ OK setup {enabled}
+- ❌ ERROR `vim.ui.input` is not set to `Snacks.input`
+
+Snacks.lazygit ~
+- ✅ OK {lazygit} installed
+
+Snacks.notifier ~
+- ✅ OK setup {enabled}
+- ✅ OK is ready
+
+Snacks.picker ~
+- ✅ OK setup {enabled}
+- ❌ ERROR `vim.ui.select` is not set to `Snacks.picker.select`
+- ⚠️ WARNING Missing Treesitter languages:
+    `regex`
+- ✅ OK 'git' `git version 2.54.0`
+- ✅ OK 'rg' `ripgrep 15.1.0`
+- ✅ OK `Snacks.picker.grep()` is available
+- ✅ OK 'fd' `fd 10.4.2`
+- ✅ OK `Snacks.picker.files()` is available
+- ✅ OK `Snacks.picker.explorer()` is available
+- ✅ OK `SQLite3` is available
+
+Snacks.quickfile ~
+- ⚠️ WARNING setup {disabled}
+
+Snacks.scope ~
+- ✅ OK setup {enabled}
+
+Snacks.scroll ~
+- ⚠️ WARNING setup {disabled}
+
+Snacks.statuscolumn ~
+- ⚠️ WARNING setup {disabled}
+
+Snacks.terminal ~
+- ✅ OK shell configured
+  - `vim.o.shell`: /bin/zsh
+  - `parsed`: { "/bin/zsh" }
+
+Snacks.toggle ~
+- ✅ OK {which-key} is installed
+
+Snacks.words ~
+- ⚠️ WARNING setup {disabled}
+
+==============================================================================
+telescope:                                                                  ✅
+
+Checking for required plugins ~
+- ✅ OK plenary installed.
+
+Checking external dependencies ~
+- ✅ OK rg: found ripgrep 15.1.0
+- ✅ OK fd: found fd 10.4.2
+
+===== Installed extensions ===== ~
+
+==============================================================================
+vim.deprecated:                                                           1 ⚠️
+
+ ~
+- ⚠️ WARNING opts.jump.float is deprecated. Feature will be removed in Nvim 0.14
+  - ADVICE:
+    - use opts.jump.on_jump instead.
+    - stack traceback:
+        /Users/alextorresruiz/.local/share/nvim/lazy/astrocore/lua/astrocore/init.lua:592
+        /Users/alextorresruiz/.local/share/nvim/lazy/lazy.nvim/lua/lazy/core/loader.lua:387
+        =[C]:-1
+        /Users/alextorresruiz/.local/share/nvim/lazy/lazy.nvim/lua/lazy/core/util.lua:135
+        /Users/alextorresruiz/.local/share/nvim/lazy/lazy.nvim/lua/lazy/core/loader.lua:395
+        /Users/alextorresruiz/.local/share/nvim/lazy/lazy.nvim/lua/lazy/core/loader.lua:362
+        /Users/alextorresruiz/.local/share/nvim/lazy/lazy.nvim/lua/lazy/core/loader.lua:197
+        /Users/alextorresruiz/.local/share/nvim/lazy/lazy.nvim/lua/lazy/core/loader.lua:543
+        /Users/alextorresruiz/.local/share/nvim/lazy/lazy.nvim/lua/lazy/core/loader.lua:564
+        =[C]:-1
+        /Users/alextorresruiz/.local/share/nvim/lazy/astrocommunity/lua/astrocommunity/lsp/nvim-lsp-file-operations/init.lua:6
+        /Users/alextorresruiz/.local/share/nvim/lazy/lazy.nvim/lua/lazy/core/loader.lua:115
+        =[C]:-1
+        /Users/alextorresruiz/.local/share/nvim/lazy/lazy.nvim/lua/lazy/core/util.lua:135
+        /Users/alextorresruiz/.local/share/nvim/lazy/lazy.nvim/lua/lazy/core/loader.lua:114
+        /Users/alextorresruiz/.local/share/nvim/lazy/lazy.nvim/lua/lazy/init.lua:112
+        /Users/alextorresruiz/.config/nvim/lua/lazy_setup.lua:1
+        =[C]:-1
+        /Users/alextorresruiz/.config/nvim/init.lua:35
+
+==============================================================================
+vim.health:                                                                 ✅
+
+System Info ~
+- ✅ OK Up to date (0.12.2)
+- Nvim version: `v0.12.2` 
+- Operating system: Darwin 25.4.0
+- Terminal: ghostty 1.3.2-cmux-ios-manual-io-minimal-clean-20260501-+22fa801f8
+- $TERM: xterm-256color
+
+Configuration ~
+- ✅ OK no issues found
+
+Runtime ~
+- ✅ OK $VIMRUNTIME: /opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime
+
+Performance ~
+- ✅ OK Build type: Release
+
+Remote Plugins ~
+- ✅ OK Up to date
+
+Terminal ~
+- key_backspace (kbs) terminfo entry: `key_backspace=\177`
+- key_dc (kdch1) terminfo entry: `key_dc=\E[3~`
+- $TERM_PROGRAM="ghostty"
+- $COLORTERM="truecolor"
+
+External Tools ~
+- ✅ OK ripgrep 15.1.0 (/opt/homebrew/bin/rg)
+- ✅ OK vim.ui.open: handler found (open)
+- ✅ OK git version 2.54.0 (/opt/homebrew/bin/git)
+- ✅ OK curl 8.7.1 (/usr/bin/curl)
+  curl 8.7.1 (x86_64-apple-darwin25.0) libcurl/8.7.1 (SecureTransport) LibreSSL/3.3.6 zlib/1.2.12 nghttp2/1.68.0
+  Release-Date: 2024-03-27
+  Protocols: dict file ftp ftps gopher gophers http https imap imaps ipfs ipns ldap ldaps mqtt pop3 pop3s rtsp smb smbs smtp smtps telnet tftp
+  Features: alt-svc AsynchDNS GSS-API HSTS HTTP2 HTTPS-proxy IPv6 Kerberos Largefile libz MultiSSL NTLM SPNEGO SSL threadsafe UnixSockets
+
+==============================================================================
+vim.lsp:                                                                    ✅
+
+- LSP log level : WARN
+- Log path: /Users/alextorresruiz/.local/state/nvim/lsp.log
+- Log size: 1246 KB
+
+vim.lsp: Active Features ~
+
+vim.lsp: Active Clients ~
+- No active clients
+
+vim.lsp: Enabled Configurations ~
+
+vim.lsp: File Watcher ~
+- file watching "(workspace/didChangeWatchedFiles)" disabled on all clients
+
+vim.lsp: Position Encodings ~
+- No active clients
+
+==============================================================================
+vim.pack:                                                                   ✅
+
+vim.pack: basics ~
+- ✅ OK `vim.pack` is not used
+
+==============================================================================
+vim.provider:                                                             4 ⚠️
+
+Clipboard (optional) ~
+- ✅ OK Clipboard tool found: pbcopy
+
+Node.js provider (optional) ~
+- Node.js: 24.2.0
+- Nvim node.js host: /Users/alextorresruiz/.local/share/yarn/global/node_modules/neovim/bin/cli.js
+- ✅ OK Latest "neovim" npm/yarn/pnpm package is installed: 5.3.0
+
+
+Perl provider (optional) ~
+- ⚠️ WARNING "Neovim::Ext" cpan module is not installed
+  - ADVICE:
+    - See :help |provider-perl| for more information.
+    - You can disable this provider (and warning) by adding `let g:loaded_perl_provider = 0` to your init.vim
+- ⚠️ WARNING No usable perl executable found
+
+Python 3 provider (optional) ~
+- pyenv: Path: /opt/homebrew/Cellar/pyenv/2.6.31/libexec/pyenv
+- pyenv: $PYENV_ROOT is not set. Infer from `pyenv root`.
+- pyenv: Root: /Users/alextorresruiz/.pyenv
+- `g:python3_host_prog` is not set. Searching for python3.11 in the environment.
+- Executable: /opt/homebrew/bin/python3.11
+- Python version: 3.11.15
+- pynvim version: 0.4.3 (outdated; from ~/Library/Python/3.11/lib/python/site-packages/neovim)
+- ⚠️ WARNING Latest pynvim is NOT installed: 0.6.0
+
+Python virtualenv ~
+- ✅ OK no $VIRTUAL_ENV
+
+Ruby provider (optional) ~
+- Ruby: 2.6.10
+- ⚠️ WARNING `neovim-ruby-host` not found.
+  - ADVICE:
+    - Run `gem install neovim` to ensure the neovim RubyGem is installed.
+    - Run `gem environment` to ensure the gem bin directory is in $PATH.
+    - If you are using rvm/rbenv/chruby, try "rehashing".
+    - See :help |g:ruby_host_prog| for non-standard gem installations.
+    - You can disable this provider (and warning) by adding `let g:loaded_ruby_provider = 0` to your init.vim
+
+==============================================================================
+vim.treesitter:                                                             ✅
+
+Treesitter features ~
+- Treesitter ABI support: min 13, max 15
+- WASM parser support: false
+
+Treesitter parsers ~
+- ✅ OK Parser: bash                      ABI: 15, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/bash.so
+- ✅ OK Parser: c                         ABI: 15, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/c.so
+- ✅ OK Parser: c                    (not loaded), path: /opt/homebrew/Cellar/neovim/0.12.2/lib/nvim/parser/c.so
+- ✅ OK Parser: dockerfile                ABI: 14, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/dockerfile.so
+- ✅ OK Parser: gitattributes             ABI: 14, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/gitattributes.so
+- ✅ OK Parser: gitignore                 ABI: 13, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/gitignore.so
+- ✅ OK Parser: go                        ABI: 15, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/go.so
+- ✅ OK Parser: gomod                     ABI: 14, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/gomod.so
+- ✅ OK Parser: gosum                     ABI: 14, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/gosum.so
+- ✅ OK Parser: gowork                    ABI: 13, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/gowork.so
+- ✅ OK Parser: hcl                       ABI: 14, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/hcl.so
+- ✅ OK Parser: helm                      ABI: 15, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/helm.so
+- ✅ OK Parser: javascript                ABI: 15, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/javascript.so
+- ✅ OK Parser: jsdoc                     ABI: 15, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/jsdoc.so
+- ✅ OK Parser: json                      ABI: 14, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/json.so
+- ✅ OK Parser: just                      ABI: 14, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/just.so
+- ✅ OK Parser: lua                       ABI: 14, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/lua.so
+- ✅ OK Parser: lua                  (not loaded), path: /opt/homebrew/Cellar/neovim/0.12.2/lib/nvim/parser/lua.so
+- ✅ OK Parser: luap                      ABI: 14, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/luap.so
+- ✅ OK Parser: markdown                  ABI: 14, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/markdown.so
+- ✅ OK Parser: markdown             (not loaded), path: /opt/homebrew/Cellar/neovim/0.12.2/lib/nvim/parser/markdown.so
+- ✅ OK Parser: markdown_inline           ABI: 14, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/markdown_inline.so
+- ✅ OK Parser: markdown_inline      (not loaded), path: /opt/homebrew/Cellar/neovim/0.12.2/lib/nvim/parser/markdown_inline.so
+- ✅ OK Parser: python                    ABI: 15, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/python.so
+- ✅ OK Parser: query                     ABI: 15, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/query.so
+- ✅ OK Parser: query                (not loaded), path: /opt/homebrew/Cellar/neovim/0.12.2/lib/nvim/parser/query.so
+- ✅ OK Parser: rust                      ABI: 15, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/rust.so
+- ✅ OK Parser: terraform                 ABI: 14, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/terraform.so
+- ✅ OK Parser: toml                      ABI: 14, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/toml.so
+- ✅ OK Parser: tsx                       ABI: 14, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/tsx.so
+- ✅ OK Parser: typescript                ABI: 14, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/typescript.so
+- ✅ OK Parser: vim                       ABI: 15, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/vim.so
+- ✅ OK Parser: vim                  (not loaded), path: /opt/homebrew/Cellar/neovim/0.12.2/lib/nvim/parser/vim.so
+- ✅ OK Parser: vimdoc                    ABI: 15, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/vimdoc.so
+- ✅ OK Parser: vimdoc               (not loaded), path: /opt/homebrew/Cellar/neovim/0.12.2/lib/nvim/parser/vimdoc.so
+- ✅ OK Parser: yaml                      ABI: 15, path: /Users/alextorresruiz/.local/share/nvim/lazy/nvim-treesitter/parser/yaml.so
+
+Treesitter queries ~
+- ✅ OK c               folds           /opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime/queries/c
+- ✅ OK c               highlights      /opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime/queries/c
+- ✅ OK c               injections      /opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime/queries/c
+- ✅ OK css             images          /Users/alextorresruiz/.local/share/nvim/lazy/snacks.nvim/queries/css
+- ✅ OK html            images          /Users/alextorresruiz/.local/share/nvim/lazy/snacks.nvim/queries/html
+- ✅ OK javascript      images          /Users/alextorresruiz/.local/share/nvim/lazy/snacks.nvim/queries/javascript
+- ✅ OK latex           images          /Users/alextorresruiz/.local/share/nvim/lazy/snacks.nvim/queries/latex
+- ✅ OK lua             folds           /opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime/queries/lua
+- ✅ OK lua             highlights      /Users/alextorresruiz/.local/share/nvim/lazy/snacks.nvim/queries/lua
+- ✅ OK lua             highlights      /opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime/queries/lua
+- ✅ OK lua             injections      /Users/alextorresruiz/.local/share/nvim/lazy/snacks.nvim/queries/lua
+- ✅ OK lua             injections      /opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime/queries/lua
+- ✅ OK markdown        folds           /opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime/queries/markdown
+- ✅ OK markdown        highlights      /opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime/queries/markdown
+- ✅ OK markdown        images          /Users/alextorresruiz/.local/share/nvim/lazy/snacks.nvim/queries/markdown
+- ✅ OK markdown        injections      /Users/alextorresruiz/.local/share/nvim/lazy/snacks.nvim/queries/markdown
+- ✅ OK markdown        injections      /opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime/queries/markdown
+- ✅ OK markdown_inline highlights      /opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime/queries/markdown_inline
+- ✅ OK markdown_inline images          /Users/alextorresruiz/.local/share/nvim/lazy/snacks.nvim/queries/markdown_inline
+- ✅ OK markdown_inline injections      /opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime/queries/markdown_inline
+- ✅ OK norg            images          /Users/alextorresruiz/.local/share/nvim/lazy/snacks.nvim/queries/norg
+- ✅ OK query           folds           /opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime/queries/query
+- ✅ OK query           highlights      /opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime/queries/query
+- ✅ OK scss            images          /Users/alextorresruiz/.local/share/nvim/lazy/snacks.nvim/queries/scss
+- ✅ OK svelte          images          /Users/alextorresruiz/.local/share/nvim/lazy/snacks.nvim/queries/svelte
+- ✅ OK tsx             images          /Users/alextorresruiz/.local/share/nvim/lazy/snacks.nvim/queries/tsx
+- ✅ OK typst           images          /Users/alextorresruiz/.local/share/nvim/lazy/snacks.nvim/queries/typst
+- ✅ OK vim             folds           /opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime/queries/vim
+- ✅ OK vim             highlights      /opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime/queries/vim
+- ✅ OK vim             injections      /opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime/queries/vim
+- ✅ OK vimdoc          highlights      /opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime/queries/vimdoc
+- ✅ OK vimdoc          injections      /opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime/queries/vimdoc
+- ✅ OK vue             images          /Users/alextorresruiz/.local/share/nvim/lazy/snacks.nvim/queries/vue
+

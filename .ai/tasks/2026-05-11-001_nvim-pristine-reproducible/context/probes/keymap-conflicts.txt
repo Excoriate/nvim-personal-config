@@ -1,0 +1,31 @@
+- ⚠️ WARNING Conflicting mappings detected in mode `n`:
+  - <C-L>: Move to right split
+  - <C-l>: Move to right window
+
+  - <C-K>: Move to above split
+  - <C-k>: Move to top window
+
+  - <C-J>: Move to below split
+  - <C-j>: Move to bottom window
+
+  - ADVICE:
+    - Make sure to normalize the left hand side of mappings to what is used in :help |keycodes.| This includes making sure to capitalize <Leader> and <LocalLeader>.
+
+==============================================================================
+astronvim:                                                                2 ⚠️
+
+Checking requirements ~
+- AstroNvim Version: v5.3.15
+- Neovim Version: v0.12.2
+- ✅ OK Using stable Neovim >= 0.10.0
+- ✅ OK `git` is installed: Used for core functionality such as updater and plugin management
+- ✅ OK `open` is installed: Used for `gx` mapping for opening files with system opener (Optional)
+- ✅ OK `rg` is installed: Used for Pickers `live_grep` picker, `<Leader>fw` and `<Leader>fW` by default (Optional)
+- ✅ OK `lazygit` is installed: Used for mappings to pull up git TUI (Optional)
+- ✅ OK `node` is installed: Used for mappings to pull up node REPL (Optional)
+- ⚠️ WARNING `gdu/gdu-go/gdu_windows_amd64.exe` is not installed: Used for mappings to pull up disk usage analyzer (Optional)
+- ⚠️ WARNING `btm` is not installed: Used for mappings to pull up system monitor (Optional)
+- ✅ OK `python3` is installed: Used for mappings to pull up python REPL (Optional)
+
+==============================================================================
+lazy:                                                               2 ⚠️  3 ❌

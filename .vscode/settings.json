@@ -1,5 +1,12 @@
 {
-  "[lua]": {
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#113419",
+        "titleBar.activeBackground": "#184923",
+        "titleBar.activeForeground": "#F7FCF9"
+    },
+
+    // Lua-specific settings for Neovim development
+    "[lua]": {
         "editor.defaultFormatter": "JohnnyMorganz.stylua",
         "editor.formatOnSave": true,
         "editor.tabSize": 2,
@@ -119,5 +126,5 @@
     "git.autofetch": true,
 
     // Extensions recommendations
-    "extensions.ignoreRecommendations": false
+    "extensions.ignoreRecommendations": true
 }

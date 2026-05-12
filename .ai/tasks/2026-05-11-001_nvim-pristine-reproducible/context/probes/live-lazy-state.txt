@@ -1,0 +1,10 @@
+{
+  count = 71,
+  loaded = 12,
+  real_cputime = true,
+  startuptime = 0,
+  times = {
+    LazyDone = 55.066,
+    LazyStart = 11.465
+  }
+}

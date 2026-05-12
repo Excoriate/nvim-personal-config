@@ -1,340 +1,166 @@
-# My Neovim Configuration
+# nvim-personal-config
 
-![License](https://img.shields.io/github/license/Excoriate/nvim)
-![Last Commit](https://img.shields.io/github/last-commit/Excoriate/nvim)
+[![License](https://img.shields.io/github/license/Excoriate/nvim-personal-config)](LICENSE)
 [![CI](https://github.com/Excoriate/nvim-personal-config/actions/workflows/ci.yml/badge.svg)](https://github.com/Excoriate/nvim-personal-config/actions/workflows/ci.yml)
 
-> My personal Neovim configuration, crafted with Lua, and built on top of NvChad.
+A pristine, production-ready, reproducible Neovim configuration built on **AstroNvim v6** with an opinionated DevOps stack (Terraform, Go, Rust, TypeScript, Python/uv, Kubernetes/Helm, Docker, YAML, Justfile).
 
-## ✨ Features
+## What you get
 
--   **Plugin Manager:** [lazy.nvim](https://github.com/folke/lazy.nvim)
--   **UI:** [NvChad](https://nvchad.com/) with a custom theme.
--   **LSP:** [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) for language server configuration.
--   **Formatting:** [conform.nvim](https://github.com/stevearc/conform.nvim) with [stylua](https://github.com/JohnnyMorganz/StyLua) for Lua.
--   **And more...**
+- **AstroNvim v6.0.4** chassis pinned via semver `^6` + `lazy-lock.json` for bit-identical installs.
+- **14 AstroCommunity language packs**: lua, go, rust, typescript, python (base + basedpyright + ruff), terraform, yaml, docker, helm, bash, json, toml, markdown, just.
+- **Refined hacker-dark aesthetic**: Kanagawa Wave with 50+ TreeSitter + LSP semantic-token highlight overrides, transparent floats, smear-cursor animation.
+- **Snacks consolidation**: dashboard (custom ASCII), bigfile, bufdelete, input, notifier, picker, quickfile, scroll, scratch, words, zen. Replaces nvim-notify, indent-blankline, zen-mode, vim-illuminate.
+- **DevOps-grade Mason set**: ~40 tools auto-installed (terraform-ls, gopls, ts_ls, ruff, basedpyright, hadolint, helm-ls, actionlint, shellcheck, shfmt, jq, taplo, vale, etc.).
+- **One-command install** via a Homebrew + Justfile pipeline mirroring the dotfiles repo pattern: backup-with-timestamp, side-by-side test under `NVIM_APPNAME=nvim-pristine`, atomic promote, single-command rollback.
+- **Cold start ~100 ms** on a 12 eager-loaded / 69-total plugin set.
 
-## 🚀 Getting Started
-
-To use this configuration, clone this repository to your Neovim configuration directory:
+## Quickstart
 
 ```bash
-```bash
-git clone https://github.com/alextorresruiz/nvim-personal-config.git ~/.config/nvim
-```
+# 1. Verify your machine has the deps
+just doctor
+
+# 2. One-shot bootstrap: deps + side-by-side install + first-run sync
+just bootstrap
+
+# 3. Try it WITHOUT touching your daily ~/.config/nvim
+just try
+
+# 4. Verify health
+just health
+
+# 5. When satisfied, promote to daily driver (auto-backup + confirmation prompt)
+just promote
 ```
 
-## 📂 Structure
-
-The configuration is organized as follows:
+## Justfile recipe map
 
 ```text
-nvchad-config
-├── lua
-│   ├── autocmds.lua
-│   ├── bootstrap.lua
-│   ├── chadrc.lua
-│   ├── configs
-│   │   ├── conform.lua
-│   │   ├── lazy.lua
-│   │   └── lspconfig.lua
-│   ├── gale
-│   │   ├── aliases.lua
-│   │   ├── autocmds.lua
-│   │   ├── chadrc_aux.lua
-│   │   ├── filetypes.lua
-│   │   ├── globals.lua
-│   │   ├── linux.lua
-│   │   ├── lsp.lua
-│   │   ├── telescope.lua
-│   │   ├── types.lua
-│   │   ├── usercmds.lua
-│   │   ├── utils.lua
-│   │   ├── vim.lua
-│   │   ├── wezterm.lua
-│   │   └── wsl.lua
-│   ├── mappings.lua
-│   ├── options.lua
-│   └── plugins
-│       ├── init.lua
-│       ├── local
-│       └── spec
-├── test_lsp_files
-└── themes
+just                        # list all recipes
+just doctor                 # verify deps + nvim version + terminal capabilities
+just deps                   # install required Homebrew formulae + Nerd Font cask
+just deps-extras            # + ghostscript / tectonic (snacks PDF/LaTeX rendering)
+just backup                 # snapshot ~/.config/nvim + ~/.local/share/nvim
+just install-side           # symlink repo -> ~/.config/nvim-pristine (safe)
+just install                # symlink repo -> ~/.config/nvim (with backup + prompt)
+just sync                   # first-run :Lazy + :MasonToolsUpdateSync (headless)
+just health                 # :checkhealth headless; fail on ERROR rows
+just bench                  # hyperfine cold-start (or startuptime fallback)
+just status                 # Lazy plugin stats
+just rollback               # restore most recent backup (interactive)
+just uninstall              # remove a symlinked install
+just list-backups           # list saved backups (newest first)
+just try                    # launch the side-by-side install
+just theme <name>           # switch colorscheme (kanagawa-wave|tokyonight-storm|...)
+just format                 # stylua + shfmt in-place
+just lint                   # stylua --check + shellcheck + markdownlint
+just update-lock            # refresh lazy-lock.json after a successful sync
+just bootstrap              # deps + install-side + sync (full first-run)
+just promote                # backup + install + sync (daily-driver swap)
 ```
 
-## Plugins
+## Architecture
 
-This file provides an overview of the plugins used in this Neovim configuration, their purpose, and their configuration.
+```text
+nvim-personal-config/
+├── nvim-config/                 # the actual Neovim configuration (source of truth)
+│   ├── init.lua                 # bootstraps lazy.nvim, disables unused providers
+│   ├── lazy-lock.json           # PINNED plugin commits (committed; reproducible)
+│   ├── lua/
+│   │   ├── lazy_setup.lua       # AstroNvim spec (version="^6"), rocks disabled
+│   │   ├── community.lua        # AstroCommunity language + motion packs
+│   │   ├── polish.lua           # filetype autocmds, vim.ui rebind, last-position
+│   │   └── plugins/
+│   │       ├── astrocore.lua    # vim options + keymaps (smart-splits owns C-hjkl)
+│   │       ├── astrolsp.lua     # LSP per-server settings, format_on_save
+│   │       ├── astroui.lua      # colorscheme = kanagawa + icons
+│   │       ├── mason.lua        # mason-tool-installer DevOps tool set
+│   │       ├── treesitter.lua   # (disabled stub; community.lua handles parsers)
+│   │       ├── none-ls.lua      # (disabled stub; conform.nvim via community)
+│   │       └── user.lua         # kanagawa overrides, snacks, crates, etc.
+│   ├── .luarc.json
+│   ├── .neoconf.json
+│   ├── .stylua.toml
+│   └── selene.toml
+├── scripts/                     # bash 3.2-portable install helpers
+│   ├── nvim-doctor.sh           # tooling/version sanity check
+│   ├── nvim-deps.sh             # `brew install` orchestrator (--extras gates LaTeX/PDF)
+│   ├── nvim-backup.sh           # timestamped snapshot (~/.local/state/.../backups)
+│   ├── nvim-install.sh          # symlink + backup + confirmation (daily-driver mode)
+│   ├── nvim-uninstall.sh        # reverse install
+│   ├── nvim-rollback.sh         # restore latest backup (validates source first)
+│   ├── nvim-sync.sh             # headless :Lazy! + Mason install
+│   ├── nvim-health.sh           # headless :checkhealth + ERROR-row grep
+│   ├── nvim-bench.sh            # hyperfine cold start
+│   ├── nvim-theme.sh            # bash-3.2 portable theme switcher
+│   └── nvim-update-lock.sh      # refresh lazy-lock.json from successful sync
+├── justfile                     # public command surface (~20 recipes)
+└── _archive/                    # historical configs (nvchad-config-pre-2026-05-11)
+```
 
-### Local Plugins
+## Reproducibility contract
 
-#### `binarypeek.lua`
+| Layer | Mechanism | Reproducibility guarantee |
+|---|---|---|
+| OS deps | `just deps` -> Homebrew formulae list | Same brew = same binaries |
+| AstroNvim core | `version = "^6"` in lazy_setup.lua | Semver-minor updates allowed (v6.x); breaking v7 blocked |
+| Plugin commits | `lazy-lock.json` committed in repo | `:Lazy! restore` -> exact commit pins |
+| Mason tools | `ensure_installed` in `mason.lua` + AstroCommunity packs | Idempotent re-resolve on sync |
+| Refresh contract | `just update-lock` regenerates lock after sync, must be committed | Lock evolves only via explicit user action |
 
-- **Plugin:** `mgastonportillo/binary-peek.nvim`
-- **Description:** A plugin to peek into binary files.
-- **Status:** Disabled.
-- **Configuration:**
-  - Loaded on the `VeryLazy` event.
-  - Keymaps:
-    - `<leader>bs`: Starts BinaryPeek.
-    - `<leader>bx`: Aborts BinaryPeek.
+## Keybind highlights
 
-#### `popurri.lua`
+- **Leaders**: `<Leader>` = space, `<LocalLeader>` = comma
+- **Buffer/window nav**: `H`/`L` next/prev buffer, `<C-h/j/k/l>` smart-split nav (tmux-aware), `<C-\>` toggleterm
+- **Save/quit**: `<C-s>` save (needs `stty -ixon` in shell rc), `<Leader>w` portable save, `<C-q>` quit-all with `:confirm` prompt
+- **Search**: `n`/`N` centered, `<Esc>` clear hl, `<Leader>fw` ripgrep
+- **Git**: `<Leader>gg` Fugitive status, `[x`/`]x` conflict nav, `<Leader>gc{o,t,b,0}` conflict choose (does NOT shadow vim's `c{motion}` operators)
+- **LSP**: `<Leader>ti/tv/tp` terraform init/validate/plan, `gd` definition, `gr` references, `K` hover, `<Leader>la` code action
+- **Snacks**: `<Leader>z` zen, `<Leader>Z` zen-zoom, `<Leader>.` scratch, `<Leader>n` notification history, `<Leader>bD` delete buffer (keep layout)
+- **Motion**: `<A-j>`/`<A-k>` move line(s) in n/v/i modes
+- **Telescope**: `<Leader>ftd` Terraform Docs picker
+- **Markdown**: `<Leader>mp` toggle preview
 
-- **Plugin:** `mgastonportillo/popurri.nvim`
-- **Description:** A collection of utilities.
-- **Status:** Disabled.
-- **Configuration:**
-  - Loaded on the `Popurri` command.
-  - Keymap: `<leader>pp` toggles Popurri.
-  - Default query is set to `args`.
+Press `<Leader>` and pause to see which-key with all groups.
 
-### Spec Plugins
+## Known checkhealth noise (acceptable, non-blocking)
 
-#### `autopairs.lua`
+`:checkhealth` reports 6 ERROR rows on a fresh install. **None affect functionality**:
 
-- **Plugin:** `windwp/nvim-autopairs`
-- **Description:** Inserts pairs of brackets, parentheses, quotes, etc. automatically.
-- **Configuration:**
-  - Loaded on the `InsertEnter` event.
+| Origin | Why we accept it |
+|---|---|
+| `snacks.image` × 4 (gs / tectonic / kitty graphics protocol) | The image module is **explicitly disabled** in our snacks opts. Snacks' checkhealth still probes the deps because the feature is opt-in. Install via `just deps-extras` if you want PDF/LaTeX rendering. |
+| `snacks setup did not run` (×1) | Reported for the disabled image module. Same root cause. |
+| `vim.ui.input` / `vim.ui.select` not Snacks (×2) | Snacks' wiring of `vim.ui.*` requires `User VeryLazy` to fire; headless `:checkhealth` exits before that event. Interactive sessions get the bindings via polish.lua's `User VeryLazy` autocmd. |
 
-#### `better-escape.lua`
+## Terminal recommendations
 
-- **Plugin:** `max397574/better-escape.nvim`
-- **Description:** Provides a better escape sequence from insert mode.
-- **Configuration:**
-  - Loaded on the `InsertEnter` event.
+For best results: **Ghostty**, **WezTerm**, or **kitty**.
 
-#### `ccc.lua`
+- Add to your shell rc to free `<C-s>`: `stty -ixon`
+- tmux undercurl support: `set -as terminal-overrides ',*:U8=0:smulx=\E[4::%p1%dm:Smulx=\E[58:5:%p1%dm,Setulc=\E[58:5:%p1%dm'`
+- Install a **Nerd Font** — JetBrainsMono Nerd Font is auto-installed by `just deps`
 
-- **Plugin:** `uga-rosa/ccc.nvim`
-- **Description:** A color picker and converter.
-- **Configuration:**
-  - Loaded on the `CccPick`, `CccConvert`, or `CccHighlighterToggle` commands.
-  - Keymaps:
-    - `cc`: Converts color space.
-    - `ch`: Toggles the color highlighter.
-  - Highlighter is not auto-enabled and uses LSP.
+## Rollback / disaster recovery
 
-#### `cdproject.lua`
+Anything `just install` overwrites is timestamped at `~/.local/state/nvim-personal-config/backups/YYYYMMDD-HHMMSS/`.
 
-- **Plugin:** `LintaoAmons/cd-project.nvim`
-- **Description:** Helps to change directory to the project root.
-- **Configuration:**
-  - Loaded on the `VimEnter` event.
-  - Uses Telescope for the project picker.
+```bash
+just list-backups   # see what's available
+just rollback       # restore most recent (asks for confirmation)
+```
 
-#### `codesnap.lua`
+A working `~/.config/nvim` is recoverable as long as backups exist.
 
-- **Plugin:** `mistricky/codesnap.nvim`
-- **Description:** Creates beautiful screenshots of your code.
-- **Configuration:**
-  - Loaded on the `LspAttach` event.
-  - Keymaps:
-    - `<leader>cc`: Saves a snapshot of the selected code to the clipboard.
-    - `<leader>cs`: Saves a snapshot of the selected code to `~/Pictures`.
+## License
 
-#### `comment.lua`
+MIT — see [LICENSE](LICENSE).
 
-- **Plugin:** `numToStr/Comment.nvim`
-- **Description:** A commenting plugin that supports line and block comments.
-- **Configuration:**
-  - Depends on `JoosepAlviste/nvim-ts-context-commentstring`.
-  - Keymaps:
-    - `<leader>_`: Toggles a block comment in a single line.
-    - `<leader>/`: Toggles a line comment.
-    - `<leader>/` (visual mode): Toggles a comment with context awareness.
+## Credits
 
-#### `crates.lua`
-
-- **Plugin:** `saecki/crates.nvim`
-- **Description:** Helps manage crates in `Cargo.toml` files.
-- **Configuration:**
-  - Loaded when a `Cargo.toml` file is read.
-  - Keymap: `<leader>cu` upgrades all crates.
-
-#### `dappython.lua`
-
-- **Plugin:** `mfussenegger/nvim-dap-python`
-- **Description:** A debug adapter for Python.
-- **Configuration:**
-  - Loaded on Python files.
-  - Depends on `mfussenegger/nvim-dap` and `rcarriga/nvim-dap-ui`.
-  - Keymap: `<leader>pdr` runs the Python debugger.
-
-#### `dapui.lua`
-
-- **Plugin:** `rcarriga/nvim-dap-ui`
-- **Description:** A UI for the debug adapter protocol.
-- **Configuration:**
-  - Loaded on the `LspAttach` event.
-  - Keymaps:
-    - `<leader>db`: Toggles a breakpoint.
-    - `<leader>dt`: Toggles the DAP UI sidebar.
-
-#### `dapvirtualtext.lua`
-
-- **Plugin:** `theHamsta/nvim-dap-virtual-text`
-- **Description:** Shows virtual text for debugging.
-- **Configuration:**
-  - Loaded on the `LspAttach` event.
-
-## Custom Configurations
-
-This file documents the custom configurations found in the `lua/gale/` directory.
-
-### `aliases.lua`
-
-- **Purpose:** Defines custom command aliases.
-- **Configuration:**
-  - `tcdp`: Alias for `CdProjectTab`.
-  - Workarounds for common typos: `qa` for `Qa`, `q` for `Q`, etc.
-
-### `autocmds.lua`
-
-- **Purpose:** Defines custom autocommands for various events.
-- **Configuration:**
-  - Unattaches `vtsls` if `denols` is detected for the buffer.
-  - Sets a custom `conceallevel` for Markdown files.
-  - Redraws the status line when an LSP attaches.
-  - Prevents `<Tab>` and `<S-Tab>` from switching buffers in certain filetypes.
-  - Fixes the `z-index` for `NvCheatsheet`.
-  - Prevents auto-commenting on new lines.
-  - Adds support for `.mdx` files.
-  - Auto-resizes panes when the Neovim window is resized.
-  - Highlights the yanked text on yank.
-  - Disables diagnostics in insert and visual modes, and in `node_modules`.
-  - Removes trailing whitespaces on save.
-  - Defines windows to be closed with `q`.
-  - Prevents weird snippet jumping behavior.
-  - Automatically updates changed files.
-  - Shows a notification on file change.
-  - Enables line numbers in the Telescope previewer.
-  - Prevents the left mouse click from exiting insert mode in terminal buffers.
-
-### `chadrc_aux.lua`
-
-- **Purpose:** Provides auxiliary configurations for `chadrc`.
-- **Configuration:**
-  - Custom theme highlight overrides for `bearded-arc` and `eldritch` themes.
-  - Custom status line modules for Harpoon, Git, LSP, and word count.
-
-### `filetypes.lua`
-
-- **Purpose:** Defines custom filetype associations.
-- **Configuration:**
-  - Associates `.jsonl` files with the `json` filetype.
-  - Unattaches `jsonls` from `.jsonl` buffers.
-
-### `globals.lua`
-
-- **Purpose:** Defines global functions and variables.
-- **Configuration:**
-  - `_G.__toggle_contextual`: A function to toggle comments with context awareness.
-  - `_G.switch`: A switch/case function.
-
-### `linux.lua`
-
-- **Purpose:** Provides Linux-specific configurations.
-- **Configuration:**
-  - Sets up the clipboard for Linux systems, attempting to install `xclip` if not found.
-
-### `lsp.lua`
-
-- **Purpose:** Provides custom LSP configurations.
-- **Configuration:**
-  - A custom `on_attach` function with keymaps for various LSP actions.
-  - A function to generate a new `on_attach` function that combines the default and custom behaviors.
-  - Disables semantic tokens if the client supports them.
-  - Custom LSP capabilities.
-  - Inlay hint settings for `vtsls`.
-
-### `telescope.lua`
-
-- **Purpose:** Provides custom Telescope pickers.
-- **Configuration:**
-  - Custom pickers for files, grep, and buffers with a custom layout and entry maker.
-
-### `types.lua`
-
-- **Purpose:** Defines types for `lazydev.nvim`.
-- **Configuration:**
-  - Adds `luvit-meta`, `nvchad_types`, and `wezterm-types` to the library.
-
-### `usercmds.lua`
-
-- **Purpose:** Defines custom user commands.
-- **Configuration:**
-  - `CombineLists`/`MergeLists`: Combines two lists separated by an empty line.
-  - `WipeReg`: Clears all registers.
-  - `ToggleWordCount`: Toggles the word count mode between line and buffer.
-  - `TabuflineToggle`: Toggles the visibility of the tabufline.
-  - `SrcPlugins`: Updates the plugin imports.
-  - `SrcFile`: Sources the current file.
-  - `TabbyStart`/`TabbyStop`: Starts and stops the TabbyML docker container.
-  - `ToggleInlayHints`: Toggles inlay hints in the current buffer.
-  - `DiagnosticsVirtualTextToggle`: Toggles inline diagnostics.
-  - `DiagnosticsToggle`: Toggles diagnostics.
-  - `DapUIToggle`: Toggles the DAP UI.
-  - `UpdateAll`: Batch updates Mason, Treesitter, and Lazy.
-  - `FormatToggle`: Toggles format on save.
-  - `FormatFile`: Formats the current file.
-  - `FormatProject`: Formats the entire project.
-  - `VerifyLSP`: Verifies the LSP configuration.
-
-### `utils.lua`
-
-- **Purpose:** Provides utility functions.
-- **Configuration:**
-  - `add_alias`: Adds a command alias.
-  - `is_tbl`: Checks if a value is a table.
-  - `glb_map`/`buf_map`: Creates global and buffer-local keymaps.
-  - `del_map`: Deletes a keymap.
-  - `toggle_inspect_tree`: Toggles the Treesitter inspection tree.
-  - `go_to_github_link`: Opens the GitHub link for the plugin under the cursor.
-  - `format_file`: Formats a file using `conform`.
-  - `code_action_listener`: A listener for code actions.
-  - `handle_copy`/`handle_paste`: Functions to handle copy and paste.
-  - `menus`: A table of menus.
-  - `word_iterator`/`count_with_exclude`/`count_words_in_line`/`count_words_in_buffer`: Word counting utilities.
-  - `clear_registers`: Clears all registers.
-  - `harpoon_menu`: Toggles the Harpoon menu.
-  - `debounce`: Debounces a function.
-  - `combine_lists`: Combines two lists.
-
-### `vim.lua`
-
-- **Purpose:** Defines custom Vim functions.
-- **Configuration:**
-  - `LspHealthCheck`: A wrapper around `LspInfo`.
-  - `RunNeogit`: A wrapper to open Neogit.
-  - `RunHarpoon`: A wrapper to open the Harpoon menu.
-  - `OilDirCWD`: A wrapper to open Oil in the current working directory.
-
-### `wezterm.lua`
-
-- **Purpose:** Provides WezTerm-specific configurations.
-- **Configuration:**
-  - Loads `wezterm-types` if the terminal is WezTerm.
-
-### `wsl.lua`
-
-- **Purpose:** Provides WSL-specific configurations.
-- **Configuration:**
-  - Sets up the clipboard for WSL.
-
-## 🤝 Contributing
-
-As this is a personal configuration, I am not actively seeking contributions. However, if you have any suggestions or find any issues, feel free to open an issue.
-
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Credits
-
--   [Neovim](https://neovim.io/)
--   [Lua](https://www.lua.org/)
--   [NvChad](https://nvchad.com/)
--   ... and all the amazing plugin authors!
+- [AstroNvim](https://github.com/AstroNvim/AstroNvim) — the chassis
+- [AstroCommunity](https://github.com/AstroNvim/astrocommunity) — language packs
+- [orhun/dotfiles](https://github.com/orhun/dotfiles) — keymap inspiration
+- [folke/snacks.nvim](https://github.com/folke/snacks.nvim) — UI consolidation
+- [rebelot/kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim) — colorscheme
