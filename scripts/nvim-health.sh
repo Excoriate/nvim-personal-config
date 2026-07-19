@@ -7,14 +7,28 @@ set -euo pipefail
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 readonly APPNAME="${1:-nvim-pristine}"
-readonly OUT_DIR="${OUT_DIR:-/tmp/nvim-health-$APPNAME}"
-mkdir -p "$OUT_DIR"
-readonly LOG="$OUT_DIR/health.log"
+readonly OUT_ROOT="${OUT_DIR:-/tmp/nvim-health-$APPNAME}"
+mkdir -p "$OUT_ROOT"
+readonly RUN_DIR="$(mktemp -d "$OUT_ROOT/run.XXXXXX")"
+readonly LOG="$RUN_DIR/health.log"
+readonly NVIM_LOG="$RUN_DIR/nvim.log"
+readonly HEADLESS_CHECKS="astrocore astronvim lazy telescope vim.deprecated vim.health vim.lsp vim.pack vim.provider vim.treesitter"
 
 export NVIM_APPNAME="$APPNAME"
+export NVIM_HEALTH_LOG="$LOG"
 
-echo "🩺 Running :checkhealth (appname=$APPNAME) — writing $LOG"
-nvim --headless -c "checkhealth" -c "write! $LOG" -c "qa!" 2>&1 | tail -3 || true
+echo "Running headless-safe health providers (appname=$APPNAME); writing $LOG"
+set +e
+nvim --headless -c "checkhealth $HEADLESS_CHECKS" \
+  -c 'lua vim.cmd("silent write! " .. vim.fn.fnameescape(vim.env.NVIM_HEALTH_LOG))' \
+  -c "qa!" 2>&1 | tee "$NVIM_LOG"
+readonly nvim_status=${PIPESTATUS[0]}
+set -e
+if (( nvim_status != 0 )); then
+  echo "Neovim health command failed (status=$nvim_status)." >&2
+  exit "$nvim_status"
+fi
+tail -3 "$NVIM_LOG"
 
 if [[ ! -s "$LOG" ]]; then
   echo "❌ Health log is empty — :checkhealth probably failed to capture output." >&2

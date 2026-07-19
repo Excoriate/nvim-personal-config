@@ -3,7 +3,7 @@
 -- Inspired by orhun/dotfiles + DevOps stack optimizations
 
 -- Auto-enter insert mode when opening terminal
-vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter" }, {
+vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "term://*",
   callback = function() vim.cmd "startinsert" end,
 })

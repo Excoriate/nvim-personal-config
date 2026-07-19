@@ -28,7 +28,7 @@ return {
       extension = {
         -- Terraform/Terragrunt
         tf = "terraform",
-        tfvars = "terraform",
+        tfvars = "terraform-vars",
         hcl = "hcl",
         -- Markdown
         md = "markdown",
@@ -60,6 +60,10 @@ return {
         ["dockerfile"] = "dockerfile",
         ["Containerfile"] = "dockerfile",
         [".dockerignore"] = "gitignore",
+        ["compose.yml"] = "yaml.docker-compose",
+        ["compose.yaml"] = "yaml.docker-compose",
+        ["docker-compose.yml"] = "yaml.docker-compose",
+        ["docker-compose.yaml"] = "yaml.docker-compose",
         -- Node/Bun
         [".nvmrc"] = "text",
         [".node-version"] = "text",
@@ -89,7 +93,7 @@ return {
       pattern = {
         -- Terraform
         [".*%.tf%..*"] = "terraform",
-        [".*%.tfvars"] = "terraform",
+        [".*%.tfvars"] = "terraform-vars",
         -- Azure DevOps
         [".*%.azure%-pipelines.*%.ya?ml"] = "yaml.azure-pipelines",
         [".*/pipelines/.*%.ya?ml"] = "yaml.azure-pipelines",
@@ -171,9 +175,11 @@ return {
         -- Quick save. <C-s> requires `stty -ixon` in your shell rc on POSIX terminals
         -- (otherwise the terminal eats it as XOFF/flow-control). Provide <Leader>w as
         -- a portable fallback.
+        ["<C-S>"] = false, -- same terminal keycode as <C-s>; disable inherited force-write mapping
         ["<C-s>"] = { ":w!<cr>", desc = "Save file" },
         ["<Leader>w"] = { ":w<cr>", desc = "Save file (portable)" },
         -- :confirm prompts on unsaved buffers — replaces dangerous ":qa!" data-loss path.
+        ["<C-Q>"] = false, -- same terminal keycode as <C-q>; disable inherited force-quit mapping
         ["<C-q>"] = { ":confirm qa<cr>", desc = "Quit all (prompts on unsaved)" },
 
         -- Clear search highlight

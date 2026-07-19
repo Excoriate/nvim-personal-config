@@ -7,13 +7,20 @@ A pristine, production-ready, reproducible Neovim configuration built on **Astro
 
 ## What you get
 
-- **AstroNvim v6.0.4** chassis pinned via semver `^6` + `lazy-lock.json` for bit-identical installs.
-- **14 AstroCommunity language packs**: lua, go, rust, typescript, python (base + basedpyright + ruff), terraform, yaml, docker, helm, bash, json, toml, markdown, just.
+- **AstroNvim v6** chassis constrained by semver `^6` and pinned through
+  `lazy-lock.json` for reproducible installs.
+- **16 AstroCommunity language packs**: Lua, Go, Rust, TypeScript, Python
+  (base + basedpyright + Ruff), Terraform, YAML, Docker, Helm, Bash, JSON,
+  TOML, Markdown, and Just.
 - **Refined hacker-dark aesthetic**: Kanagawa Wave with 50+ TreeSitter + LSP semantic-token highlight overrides, transparent floats, smear-cursor animation.
 - **Snacks consolidation**: dashboard (custom ASCII), bigfile, bufdelete, input, notifier, picker, quickfile, scroll, scratch, words, zen. Replaces nvim-notify, indent-blankline, zen-mode, vim-illuminate.
-- **DevOps-grade Mason set**: ~40 tools auto-installed (terraform-ls, gopls, ts_ls, ruff, basedpyright, hadolint, helm-ls, actionlint, shellcheck, shfmt, jq, taplo, vale, etc.).
-- **One-command install** via a Homebrew + Justfile pipeline mirroring the dotfiles repo pattern: backup-with-timestamp, side-by-side test under `NVIM_APPNAME=nvim-pristine`, atomic promote, single-command rollback.
-- **Cold start ~100 ms** on a 12 eager-loaded / 69-total plugin set.
+- **DevOps-grade Mason set** auto-installs LSPs, formatters, linters, and
+  adapters for the configured language packs.
+- **One-command install** via a Homebrew + Justfile pipeline mirroring the
+  dotfiles repo pattern: backup-with-timestamp, side-by-side test under
+  `NVIM_APPNAME=nvim-pristine`, atomic promote, single-command rollback.
+- **Lock-pinned, lazy-loaded plugin graph**; run `just status nvim` for the
+  current inventory and `just bench` for machine-local startup timing.
 
 ## Quickstart
 
@@ -40,7 +47,7 @@ just promote
 just                        # list all recipes
 just doctor                 # verify deps + nvim version + terminal capabilities
 just deps                   # install required Homebrew formulae + Nerd Font cask
-just deps-extras            # + ghostscript / tectonic (snacks PDF/LaTeX rendering)
+just deps-extras            # install optional rendering tools; image stays disabled
 just backup                 # snapshot ~/.config/nvim + ~/.local/share/nvim
 just install-side           # symlink repo -> ~/.config/nvim-pristine (safe)
 just install                # symlink repo -> ~/.config/nvim (with backup + prompt)
@@ -77,7 +84,7 @@ nvim-personal-config/
 │   │       ├── astroui.lua      # colorscheme = kanagawa + icons
 │   │       ├── mason.lua        # mason-tool-installer DevOps tool set
 │   │       ├── treesitter.lua   # (disabled stub; community.lua handles parsers)
-│   │       ├── none-ls.lua      # (disabled stub; conform.nvim via community)
+│   │       ├── none-ls.lua      # enables Mason-driven formatter/linter registration
 │   │       └── user.lua         # kanagawa overrides, snacks, crates, etc.
 │   ├── .luarc.json
 │   ├── .neoconf.json
@@ -124,15 +131,15 @@ nvim-personal-config/
 
 Press `<Leader>` and pause to see which-key with all groups.
 
-## Known checkhealth noise (acceptable, non-blocking)
+## Disabled optional capabilities
 
-`:checkhealth` reports 6 ERROR rows on a fresh install. **None affect functionality**:
+`snacks.image` is intentionally disabled in `nvim-config/lua/plugins/user.lua`.
+`just deps-extras` installs Ghostscript and Tectonic for a future manual
+enablement, but it does not enable the module.
 
-| Origin | Why we accept it |
-|---|---|
-| `snacks.image` × 4 (gs / tectonic / kitty graphics protocol) | The image module is **explicitly disabled** in our snacks opts. Snacks' checkhealth still probes the deps because the feature is opt-in. Install via `just deps-extras` if you want PDF/LaTeX rendering. |
-| `snacks setup did not run` (×1) | Reported for the disabled image module. Same root cause. |
-| `vim.ui.input` / `vim.ui.select` not Snacks (×2) | Snacks' wiring of `vim.ui.*` requires `User VeryLazy` to fire; headless `:checkhealth` exits before that event. Interactive sessions get the bindings via polish.lua's `User VeryLazy` autocmd. |
+The headless health recipe excludes UI-bound Snacks checks. Dashboard,
+`vim.ui.input`, and `vim.ui.select` are verified only after a genuine TUI
+attaches and emits `UIEnter`.
 
 ## Terminal recommendations
 

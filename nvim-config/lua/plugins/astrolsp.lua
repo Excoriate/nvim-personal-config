@@ -4,8 +4,27 @@
 ---@type LazySpec
 return {
   "AstroNvim/astrolsp",
+  dependencies = { "mason-org/mason.nvim" },
   ---@type AstroLSPOpts
   opts = {
+    -- Enable the product server set synchronously during AstroFile. Mason's
+    -- deferred automatic enablement runs after FileType and misses the first buffer.
+    servers = {
+      "azure_pipelines_ls",
+      "basedpyright",
+      "bashls",
+      "docker_compose_language_service",
+      "dockerls",
+      "gopls",
+      "helm_ls",
+      "jsonls",
+      "lua_ls",
+      "marksman",
+      "taplo",
+      "terraformls",
+      "vtsls",
+      "yamlls",
+    },
     features = {
       codelens = true,
       inlay_hints = true, -- enabled for Go, Rust, TypeScript
@@ -58,13 +77,27 @@ return {
       -- Override individual sub-keys here only with `vim.tbl_deep_extend` semantics
       -- AND explicit knowledge of what the community pack already sets.
       --
-      -- Terraform: pin filetypes (community pack doesn't bind `hcl` to terraform-ls).
+      azure_pipelines_ls = {
+        filetypes = { "yaml.azure-pipelines" },
+      },
+      helm_ls = {
+        filetypes = { "helm", "yaml.helm" },
+      },
+      -- Terraform LS supports Terraform configuration and variable files only.
       terraformls = {
         cmd = { "terraform-ls", "serve" },
-        filetypes = { "terraform", "terraform-vars", "hcl" },
+        filetypes = { "terraform", "terraform-vars" },
       },
       -- YAML with comprehensive schema support
       yamlls = {
+        filetypes = {
+          "yaml",
+          "yaml.cloudformation",
+          "yaml.docker-compose",
+          "yaml.gitlab",
+          "yaml.kubernetes",
+          "yaml.taskfile",
+        },
         settings = {
           yaml = {
             schemaStore = {
@@ -145,10 +178,24 @@ return {
       },
       -- TOML (for pyproject.toml, Cargo.toml, etc.)
       taplo = {
+        -- Taplo 0.10.0 fetches its broken compiled catalog before client settings arrive.
+        -- Suppress workspaceFolders until a release containing taplo#866 is available.
+        workspace_folders = vim.NIL,
+        root_dir = function(bufnr, on_dir)
+          local filename = vim.api.nvim_buf_get_name(bufnr)
+          on_dir(filename ~= "" and vim.fs.dirname(filename) or vim.uv.cwd())
+        end,
+        cmd_env = { RUST_LOG = "error" },
         settings = {
-          formatter = {
-            alignEntries = false,
-            indentTables = true,
+          evenBetterToml = {
+            formatter = {
+              alignEntries = false,
+              indentTables = true,
+            },
+            schema = {
+              enabled = false,
+              catalogs = {},
+            },
           },
         },
       },

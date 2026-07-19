@@ -20,6 +20,9 @@ readonly REQUIRED_TOOLS=(
   "rg"        # ripgrep, telescope/snacks live grep
   "fd"        # fast file finder
   "node"      # AstroNvim updater + several plugins
+  "tree-sitter" # nvim-treesitter parser compiler
+  "rustup"      # rustaceanvim's rust-analyzer toolchain owner
+  "asciidoctor" # Vale's external processor for AsciiDoc files
 )
 
 readonly RECOMMENDED_TOOLS=(
@@ -39,9 +42,14 @@ readonly OPTIONAL_TOOLS=(
 )
 
 check() {
-  local kind="$1" tool="$2"
-  if command -v "$tool" >/dev/null 2>&1; then
-    printf '%s ✅%s %-12s -> %s\n' "$GREEN" "$RESET" "$tool" "$(command -v "$tool")"
+  local kind="$1" tool="$2" resolved=""
+  if [[ "$tool" == "rustup" && -x "$HOME/.cargo/bin/rustup" ]]; then
+    resolved="$HOME/.cargo/bin/rustup"
+  else
+    resolved="$(command -v "$tool" 2>/dev/null || true)"
+  fi
+  if [[ -n "$resolved" ]]; then
+    printf '%s ✅%s %-12s -> %s\n' "$GREEN" "$RESET" "$tool" "$resolved"
     return 0
   fi
   case "$kind" in

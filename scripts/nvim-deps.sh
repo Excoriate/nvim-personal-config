@@ -13,6 +13,8 @@ readonly CORE_BREW=(
   ripgrep
   fd
   node
+  tree-sitter-cli
+  asciidoctor # Vale's external processor for AsciiDoc files
   stylua
   just
   lazygit

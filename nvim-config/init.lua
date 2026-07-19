@@ -16,28 +16,9 @@ vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
 
--- Compat shim: AstroNvim core's mason-lspconfig.lua config calls
---   require("mason-lspconfig.mappings").get_mason_map().package_to_lspconfig[name]
--- but mason-lspconfig 1.32.0 restructured `mappings.lua` -> `mappings/{server,language,
--- filetype}.lua` and removed `get_mason_map()`. Without this, opening any LSP-backed
--- filetype (sh, tf, etc.) emits
---   "Failed to run config for mason-lspconfig.nvim ... cache_loader: module
---    'mason-lspconfig.mappings' not [found]"
--- Provide a thin re-export pointing at the new module location. Remove this when
--- AstroNvim core migrates to the new API.
-package.preload["mason-lspconfig.mappings"] = function()
-  local server = require "mason-lspconfig.mappings.server"
-  return {
-    package_to_lspconfig = server.package_to_lspconfig,
-    lspconfig_to_package = server.lspconfig_to_package,
-    get_mason_map = function()
-      return {
-        package_to_lspconfig = server.package_to_lspconfig,
-        lspconfig_to_package = server.lspconfig_to_package,
-      }
-    end,
-  }
-end
+-- The Vim and Lua Markdown ftplugins both own [[/]] and append duplicate
+-- normal-mode cleanup commands. Keep the Lua Tree-sitter mappings only.
+vim.g.no_markdown_maps = 1
 
 -- Narrow deprecation filter: suppress KNOWN upstream deprecation warnings that
 -- are pending fixes in their respective repos. Anything else still surfaces.

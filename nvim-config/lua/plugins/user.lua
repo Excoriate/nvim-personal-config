@@ -116,20 +116,13 @@ return {
     "saecki/crates.nvim",
     event = { "BufRead Cargo.toml" },
     opts = {
-      completion = {
-        cmp = { enabled = true },
+      lsp = {
+        enabled = true,
+        completion = true,
       },
     },
   },
 
-  -- aerial.nvim (symbols outline) disabled: upstream master (commit 645d108) calls
-  -- `TSNode:start()` from inside a vim.schedule callback against a node coming from
-  -- a coroutine-yielded LanguageTree, where the start metamethod resolves to nil under
-  -- Nvim 0.12. Surfaces as
-  --   `helpers.lua:13: attempt to call method 'start' (a nil value)`
-  -- on any TreeSitter-backed filetype (terraform/go/python/etc.). Re-enable when
-  -- stevearc/aerial.nvim ships a Nvim 0.12 fix (track: github.com/stevearc/aerial.nvim).
-  -- Symbol navigation in the meantime: snacks.picker / trouble.nvim / `<Leader>lS`.
   {
     "stevearc/aerial.nvim",
     enabled = false,
@@ -209,6 +202,18 @@ return {
       "nvim-treesitter/nvim-treesitter",
     },
     opts = {},
+  },
+
+  -- Rust: the AstroCommunity pack delegates rust-analyzer ownership to rustup.
+  -- Resolve through rustup explicitly so a stale Mason shim cannot shadow it.
+  {
+    "mrcjkb/rustaceanvim",
+    opts = function(_, opts)
+      local rustup = vim.fn.expand "$HOME/.cargo/bin/rustup"
+      if vim.fn.executable(rustup) == 0 then rustup = "rustup" end
+      opts.server = opts.server or {}
+      opts.server.cmd = { rustup, "run", "stable", "rust-analyzer" }
+    end,
   },
 
   -- GitHub Copilot (optional - uncomment if desired)
@@ -295,6 +300,7 @@ return {
         },
       },
       dashboard = {
+        enabled = #vim.api.nvim_list_uis() > 0,
         preset = {
           header = table.concat({
             " █████  ███████ ████████ ██████   ██████ ",
@@ -317,6 +323,7 @@ return {
   -- Extend LuaSnip with JS/TS snippets
   {
     "L3MON4D3/LuaSnip",
+    dependencies = { "tpope/vim-repeat" },
     config = function(plugin, opts)
       require "astronvim.plugins.configs.luasnip"(plugin, opts)
       local luasnip = require "luasnip"
